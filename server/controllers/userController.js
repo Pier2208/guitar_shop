@@ -93,7 +93,8 @@ module.exports = {
                 lastname: req.user.local.lastname,
                 email: req.user.local.email,
                 role: req.user.role,
-                history: req.user.history
+                history: req.user.history,
+                cart: req.user.cart
             })
 
         } catch(err) {
