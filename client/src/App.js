@@ -3,13 +3,16 @@ import { Route, Switch } from 'react-router-dom'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import { theme } from './styles/theme'
 
 import Layout from './components/UI/HOC/Layout'
 import Home from './components/Home'
+import Login from './components/Login'
+import Register from './components/Register'
 
-library.add(fab)
+library.add(fab, fas)
 
 
 const GlobalStyle = createGlobalStyle`
@@ -35,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
     }
     a {
         text-decoration: none;
+        color: ${props => props.theme.accentColor}
     }
 `
 
@@ -45,6 +49,8 @@ const App = () => {
                 <GlobalStyle />
                 <Switch>
                     <Route exact path="/" component={Home} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Register} />
                 </Switch>
             </Layout>
         </ThemeProvider>

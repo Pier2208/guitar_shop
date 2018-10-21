@@ -12,7 +12,7 @@ const StyledLogo = styled.div`
     h1 {
         font-family: 'Lobster';
         font-weight: 300;
-        color: ${ props => props.theme.fontColor };
+        color: ${ props => props.theme.fontColorLight };
         margin: 0;
     }
     span {
