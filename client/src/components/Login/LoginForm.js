@@ -27,34 +27,22 @@ const ErrorMessage = styled.div`
 `
 
 
-class RegisterForm extends Component {
+class LoginForm extends Component {
     render() {
         return (
             <Formik
                 initialValues={{
-                    firstname: '',
-                    lastname: '',
                     email: '',
-                    password: '',
-                    confirmPassword: ''
+                    password: ''
                 }}
                 validationSchema={
                     Yup.object().shape({
-                        firstname: Yup.string()
-                            .max(50, 'Firstname cannot be longer than 50 characters')
-                            .required('Firstname is required'),
-                        lastname: Yup.string()
-                            .max(50, 'Lastname cannot be longer than 50 characters')
-                            .required('Lastname is required'),
                         email: Yup.string()
                             .email('Please enter a valid email')
                             .required('Email is required'),
                         password: Yup.string()
                             .min(8, 'Pasword must be at least 8 characters')
-                            .required('Password is required'),
-                        confirmPassword: Yup.string()
-                            .oneOf([Yup.ref('password')], 'Password must match')
-                            .required('Please confirm password')
+                            .required('Password is required')
                     })
                 }
                 onSubmit={values => console.log(values)}
@@ -70,31 +58,6 @@ class RegisterForm extends Component {
                     isSubmitting
                 }) => (
                         <Form onSubmit={handleSubmit} noValidate>
-                            <div>
-                                <Input
-                                    type='text'
-                                    name='firstname'
-                                    placeholder='Firstname'
-                                    value={values.firstname}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    border={touched.firstname && errors.firstname && '1px solid #CB4D36'}
-                                />
-                                {touched.firstname && errors.firstname && <ErrorMessage>{errors.firstname}</ErrorMessage>}
-                            </div>
-
-                            <div>
-                                <Input
-                                    type='text'
-                                    name='lastname'
-                                    placeholder='Lastname'
-                                    value={values.lastname}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    border={touched.lastname && errors.lastname && '1px solid #CB4D36'}
-                                />
-                                {touched.lastname && errors.lastname && <ErrorMessage>{errors.lastname}</ErrorMessage>}
-                            </div>
 
                             <div>
                                 <Input
@@ -123,19 +86,6 @@ class RegisterForm extends Component {
                             </div>
 
                             <div>
-                                <Input
-                                    type='password'
-                                    name='confirmPassword'
-                                    placeholder='Confirm password'
-                                    value={values.confirmPassword}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    border={touched.confirmPassword && errors.confirmPassword && '1px solid #CB4D36'}
-                                />
-                                {touched.confirmPassword && errors.confirmPassword && <ErrorMessage>{errors.confirmPassword}</ErrorMessage>}
-                            </div>
-
-                            <div>
                                 <SubmitButton type="submit">Go!</SubmitButton>
                             </div>
                         </Form>
@@ -147,4 +97,4 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm
+export default LoginForm

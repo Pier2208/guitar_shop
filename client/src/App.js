@@ -38,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
     }
     a {
         text-decoration: none;
-        color: ${props => props.theme.accentColor}
+        color: ${props => props.theme.accentColor};
     }
 `
 

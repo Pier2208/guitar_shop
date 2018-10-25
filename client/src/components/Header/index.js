@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import Logo from './Logo'
 import { LogButton } from '../../styles/Button'
@@ -31,10 +32,14 @@ class Header extends Component {
                 <Container>
                     <Logo />
                     <Wrapper>
-                        <LogButton>Register</LogButton>
+                        <Link to="/register">
+                            <LogButton>Register</LogButton>
+                        </Link>
                     </Wrapper>
                     <Wrapper>
-                        <LogButton>Login</LogButton>
+                        <Link to="/login">
+                            <LogButton>Login</LogButton>
+                        </Link>
                     </Wrapper>
                 </Container>
             </StyledHeader>
