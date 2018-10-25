@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import styled from 'styled-components'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { Input } from '../../styles/Input'
 import { SubmitButton } from '../../styles/Button'
+import { registerUser } from '../../actions/userActions'
 
 
 const Form = styled.form`
@@ -57,7 +59,10 @@ class RegisterForm extends Component {
                             .required('Please confirm password')
                     })
                 }
-                onSubmit={values => console.log(values)}
+                onSubmit={(values, { setFieldError, setSubmitting, resetForm }) => {
+                    this.props.registerUser(values, setFieldError, setSubmitting, resetForm)
+                    }
+                }
             >
 
                 {({
@@ -147,4 +152,4 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm
+export default connect(null, { registerUser })(RegisterForm)

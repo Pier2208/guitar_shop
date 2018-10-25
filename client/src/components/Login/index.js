@@ -55,7 +55,7 @@ class Login extends Component {
             <Wrapper>
                 <BoxTitle>
                     <h2>Login</h2>
-                    <FontAwesomeIcon icon="user" />
+                    <FontAwesomeIcon icon="sign-in-alt" />
                 </BoxTitle>
                 <FormContainer>
                     <LoginForm />
