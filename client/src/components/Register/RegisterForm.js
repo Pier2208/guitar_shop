@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import styled from 'styled-components'
+
+//Formik and validation library
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
+//import syled components
 import { Input } from '../../styles/Input'
 import { SubmitButton } from '../../styles/Button'
+
+//import action creators
 import { registerUser } from '../../actions/userActions'
 
 

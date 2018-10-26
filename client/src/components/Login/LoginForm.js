@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+
+//Formik and validation library
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
+//import styled components
 import { Input } from '../../styles/Input'
 import { SubmitButton } from '../../styles/Button'
+
+//import action creators
+import { loginUser } from '../../actions/userActions'
 
 
 const Form = styled.form`
@@ -45,7 +52,9 @@ class LoginForm extends Component {
                             .required('Password is required')
                     })
                 }
-                onSubmit={values => console.log(values)}
+                onSubmit={(values, { resetForm, setSubmitting, setFieldError } )=> {
+                    this.props.loginUser(values, resetForm, setSubmitting, setFieldError)
+                }}
             >
 
                 {({
@@ -97,4 +106,4 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm
+export default connect(null, { loginUser })(LoginForm)

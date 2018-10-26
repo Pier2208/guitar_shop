@@ -51,18 +51,18 @@ module.exports = {
             //check that user is in database
             const existingUser = await User.findOne({ 'local.email': email })
             if (!existingUser) {
-                return res.status(404).json({ error: 'User not found' })
+                return res.status(404).json({ email: 'User not found. Please verify your email or create an account.' })
             }
             //Compare passwords
             existingUser.comparePasswords(password, (err, isMatch) => {
                 if (err) return res.status(400).json(err)
                 if (!isMatch) {
-                    return res.status(400).json({ error: 'Passwords do not match' })
+                    return res.status(400).json({ password: 'Passwords do not match. Please check again.' })
                 }
                 //generate token
                 existingUser.generateToken((err, user) => {
                     if (err) return res.status(400).json(err)
-                    res.cookie('w_auth', user.token).status(200).json({ loginSuccess: true })
+                    res.cookie('w_auth', user.token).status(200).json(true)
                 })
             })
 
