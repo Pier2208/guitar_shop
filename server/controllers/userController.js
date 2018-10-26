@@ -15,7 +15,7 @@ module.exports = {
             const existingUser = await User.findOne({ 'local.email': email })
 
             if (existingUser) {
-                return res.status(400).json({ error: 'Email already in use' })
+                return res.status(400).json({ email: 'Email already in use' })
             }
 
             //create a new user
@@ -30,7 +30,7 @@ module.exports = {
             //generate token
             newUser.generateToken((err, user) => {
                 if (err) return res.status(400).json(err)
-                res.cookie('w_auth', user.token).status(200).json({ registerSuccess: true })
+                res.cookie('w_auth', user.token).status(200).json(true)
             })
 
         } catch (err) {

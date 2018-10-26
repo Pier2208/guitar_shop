@@ -59,10 +59,10 @@ class RegisterForm extends Component {
                             .required('Please confirm password')
                     })
                 }
-                onSubmit={(values, { setFieldError, setSubmitting, resetForm }) => {
-                    this.props.registerUser(values, setFieldError, setSubmitting, resetForm)
-                    }
-                }
+
+                onSubmit={ (values, {resetForm, setFieldError, setSubmitting}) => {
+                    this.props.registerUser(values, resetForm, setFieldError, setSubmitting)
+                }}
             >
 
                 {({
@@ -141,7 +141,9 @@ class RegisterForm extends Component {
                             </div>
 
                             <div>
-                                <SubmitButton type="submit">Go!</SubmitButton>
+                                <SubmitButton 
+                                    type="submit"
+                                    disabled={isSubmitting}>Go!</SubmitButton>
                             </div>
                         </Form>
                     )

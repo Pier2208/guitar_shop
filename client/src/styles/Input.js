@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 //form input
 export const Input = styled.input`
-    border: ${props => props.border || '1px solid #D9D7D7'};
+    border: ${props => props.border ? props.border : '1px solid #D9D7D7'};
     width: 40rem;
     height: 4rem;
     border-radius: 6px;

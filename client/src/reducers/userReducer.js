@@ -9,7 +9,6 @@ export default (state=INITIAL_STATE, action) => {
                 ...state,
                 registerSuccess: action.payload
             }
-        break
         default:
             return state
     }
