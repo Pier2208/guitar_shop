@@ -25,7 +25,6 @@ const userSchema = new Schema({
         },
         email: {
             type: String,
-            unique: true,
             lowercase: true,
             trim: true
         },
@@ -35,10 +34,11 @@ const userSchema = new Schema({
         }
     },
     facebook: {
-        facebookID: String
+        id: String
     },
     google: {
-        googleID: String
+        id: String,
+        email: String
     },
     role: {
         type: String,
