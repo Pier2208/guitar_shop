@@ -7,8 +7,10 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 
 import { theme } from './styles/theme'
 
-import Layout from './components/UI/HOC/Layout'
+//components
+import Dashboard from './components/Dashboard'
 import Home from './components/Home'
+import Layout from './components/UI/HOC/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
 
@@ -48,9 +50,11 @@ const App = () => {
             <Layout>
                 <GlobalStyle />
                 <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/login" component={Login} />
+                    {/*from most to less specific  */}
+                    <Route exact path="/user/dashboard" component={Dashboard} />
                     <Route exact path="/register" component={Register} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/" component={Home} />
                 </Switch>
             </Layout>
         </ThemeProvider>

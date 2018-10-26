@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
 import RegisterForm from './RegisterForm'
 import { SocialButton } from '../../styles/Button'
+
 
 
 const Wrapper = styled.div`
@@ -68,10 +70,12 @@ class Register extends Component {
                         <FontAwesomeIcon icon={['fab', 'facebook']} />
                         Facebook
                     </SocialButton>
+                    <a href="/auth/google">
                     <SocialButton google>
                         <FontAwesomeIcon icon={['fab', 'google']} />
                         Google
                     </SocialButton>
+                    </a>
                     <p>Already have an account? <Link to='/login'>Log In</Link></p>
                 </FormContainer>
             </Wrapper>

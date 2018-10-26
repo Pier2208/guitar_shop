@@ -1,0 +1,98 @@
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+
+//styled components
+const StyledHeader = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 8rem;
+    background-color: ${props => props.theme.primaryColorLight};
+    color: ${props => props.theme.fontColorLight};
+    border-top: 2px solid ${props => props.theme.primaryColorLight};
+    margin-top: 1rem;
+    h1 {
+        margin: 0;
+        padding: 2rem;
+    }
+`
+const Container = styled.div`
+    display: flex;
+    margin-top: 2rem;
+`
+const StyledMenu = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+    height: 100vh;
+`
+const StyledBoxMenu = styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 6rem;
+    background-color: ${props => props.theme.fontColorLight};
+    border-left: 0.8rem solid ${props => props.theme.accentColor};
+    color: ${props => props.theme.primaryColorDark};
+    text-transform: uppercase;
+    font-size: 1.8rem;
+    padding: 2rem 3rem;
+    margin-bottom: 5px;
+`
+
+const StyledView = styled.div`
+    flex: 1;
+    height: 100vh;
+    padding: 0 3rem;
+`
+
+//links
+const links = [
+    {
+        name: 'My account',
+        linkTo: '/user/dashboard'
+    },
+    {
+        name: 'User information',
+        linkTo: '/user/user_profile'
+    },
+    {
+        name: 'My cart',
+        linkTo: '/user/cart'
+    }
+]
+
+
+
+const DashboardLayout = props => {
+
+    const renderLinks = (links) => (
+        links.map((link, i) => (
+            <Link to={link.linkTo} key={i}>
+                <StyledBoxMenu>
+                    {link.name}
+                </StyledBoxMenu>
+            </Link>
+        ))
+    )
+
+    return (
+        <Fragment>
+            <StyledHeader>
+                <h1>Bonjour, Pierrick!</h1>
+            </StyledHeader>
+            <Container>
+                <StyledMenu>
+                    {renderLinks(links)}
+                </StyledMenu>
+                <StyledView>
+                    {props.children}
+                </StyledView>
+            </Container>
+        </Fragment>
+    )
+}
+
+export default DashboardLayout
