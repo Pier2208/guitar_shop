@@ -5,6 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 
+//color styles
 import { theme } from './styles/theme'
 
 //components
@@ -14,6 +15,10 @@ import Layout from './components/UI/HOC/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
 
+//withAuth HOC
+import withAuth from './components/UI/HOC/withAuth'
+
+//fontawsone library
 library.add(fab, fas)
 
 
@@ -50,11 +55,12 @@ const App = () => {
             <Layout>
                 <GlobalStyle />
                 <Switch>
-                    {/*from most to less specific  */}
-                    <Route exact path="/user/dashboard" component={Dashboard} />
-                    <Route exact path="/register" component={Register} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/" component={Home} />
+                    {/* from most to less specific  */}
+                    {/* HOC withAuth: a fn that returns a customized class  */}
+                    <Route exact path="/user/dashboard" component={withAuth(Dashboard, true)} />
+                    <Route exact path="/register" component={withAuth(Register, false)} />
+                    <Route exact path="/login" component={withAuth(Login, false)} />
+                    <Route exact path="/" component={withAuth(Home, null)} />
                 </Switch>
             </Layout>
         </ThemeProvider>

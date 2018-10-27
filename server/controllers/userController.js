@@ -7,8 +7,8 @@ module.exports = {
         try {
 
             //if errors
-            if(req.errors) 
-              throw req.errors
+            if (req.errors)
+                throw req.errors
 
             const { firstname, lastname, email, password } = req.body
             //checking if email not already taken
@@ -43,21 +43,21 @@ module.exports = {
         try {
 
             //if errors
-            if(req.errors)
+            if (req.errors)
                 throw req.errors
-                
-            
+
+
             const { email, password } = req.body
             //check that user is in database
             const existingUser = await User.findOne({ 'local.email': email })
             if (!existingUser) {
-                return res.status(404).json({ email: 'User not found. Please verify your email or create an account.' })
+                return res.status(404).json({ email: 'User not found. Please verify your email.' })
             }
             //Compare passwords
             existingUser.comparePasswords(password, (err, isMatch) => {
                 if (err) return res.status(400).json(err)
                 if (!isMatch) {
-                    return res.status(400).json({ password: 'Passwords do not match. Please check again.' })
+                    return res.status(400).json({ password: 'Password does not match. Please check again.' })
                 }
                 //generate token
                 existingUser.generateToken((err, user) => {
@@ -74,31 +74,28 @@ module.exports = {
     logoutUser: async (req, res) => {
 
         try {
-            await User.findOneAndUpdate({ _id: req.user.id}, {$set: {
-                token: ''
-            }})
-            res.clearCookie('w_auth').status(200).json({ logoutSuccess: true})
+            await User.findOneAndUpdate({ _id: req.user.id }, {
+                $set: {
+                    token: ''
+                }
+            })
+            res.clearCookie('w_auth').status(200).json({ logoutSuccess: true })
 
-        } catch(err) {
+        } catch (err) {
             res.status(400).json(err)
         }
     },
 
     authUser: (req, res) => {
 
-        try {
-            res.status(200).json({
-                isAuth: true,
-                firstname: req.user.local.firstname,
-                lastname: req.user.local.lastname,
-                email: req.user.local.email,
-                role: req.user.role,
-                history: req.user.history,
-                cart: req.user.cart
-            })
-
-        } catch(err) {
-            res.status(400).json('Unauthorized', err) 
-        }
+        res.status(200).json({
+            isAuth: true,
+            firstname: req.user.local.firstname || req.user.google.firstname,
+            lastname: req.user.local.lastname || req.user.google.lastname,
+            email: req.user.local.email || req.user.google.email,
+            role: req.user.role,
+            history: req.user.history,
+            cart: req.user.cart
+        })
     }
 }

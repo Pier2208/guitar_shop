@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -9,13 +10,11 @@ const StyledHeader = styled.div`
     align-items: center;
     width: 100%;
     height: 8rem;
-    background-color: ${props => props.theme.primaryColorLight};
-    color: ${props => props.theme.fontColorLight};
-    border-top: 2px solid ${props => props.theme.primaryColorLight};
-    margin-top: 1rem;
+    color: ${props => props.theme.primaryColorLight};
+    border-bottom: 2px solid ${props => props.theme.primaryColorLight};
+    margin-top: 3rem;
     h1 {
         margin: 0;
-        padding: 2rem;
     }
 `
 const Container = styled.div`
@@ -38,6 +37,7 @@ const StyledBoxMenu = styled.div`
     color: ${props => props.theme.primaryColorDark};
     text-transform: uppercase;
     font-size: 1.8rem;
+    font-weight: 700;
     padding: 2rem 3rem;
     margin-bottom: 5px;
 `
@@ -55,7 +55,7 @@ const links = [
         linkTo: '/user/dashboard'
     },
     {
-        name: 'User information',
+        name: 'My Info',
         linkTo: '/user/user_profile'
     },
     {
@@ -81,7 +81,7 @@ const DashboardLayout = props => {
     return (
         <Fragment>
             <StyledHeader>
-                <h1>Bonjour, Pierrick!</h1>
+                <h1>Hello {props.user.firstname ? props.user.firstname : null}!</h1>
             </StyledHeader>
             <Container>
                 <StyledMenu>
@@ -95,4 +95,8 @@ const DashboardLayout = props => {
     )
 }
 
-export default DashboardLayout
+const mapStateToProps = state => ({
+    user: state.user.userInfo
+})
+
+export default connect(mapStateToProps)(DashboardLayout)

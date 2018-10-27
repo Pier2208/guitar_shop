@@ -1,4 +1,7 @@
-import { SET_FORM_ERROR , CLEAR_ERROR } from '../actions/types'
+import { SET_FORM_ERROR,
+         CLEAR_ERROR }
+        from '../actions/types'
+         
 const INITIAL_STATE = {}
 
 export default (state=INITIAL_STATE, action) => {
@@ -10,7 +13,6 @@ export default (state=INITIAL_STATE, action) => {
             }
         case CLEAR_ERROR: 
             return INITIAL_STATE
-            break
         default:
            return state
     }

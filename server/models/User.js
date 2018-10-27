@@ -38,7 +38,9 @@ const userSchema = new Schema({
     },
     google: {
         id: String,
-        email: String
+        email: String,
+        firstname: String,
+        lastname: String
     },
     role: {
         type: String,

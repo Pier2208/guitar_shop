@@ -16,6 +16,11 @@ passport.use(new GoogleStrategy(
 
         try {
 
+            console.log(profile.displayName)
+            console.log(profile.name)
+            console.log(profile.name.givenName)
+            console.log(profile.name.familyName)
+
             const existingUser = await User.findOne({ "google.id": profile.id})
 
             //if a user exists with this googleID, just create a new token
@@ -29,7 +34,9 @@ passport.use(new GoogleStrategy(
             const user = await new User({
                 'authMethod': 'google',
                 'google.id': profile.id,
-                'google.email': profile.emails[0].value
+                'google.email': profile.emails[0].value,
+                'google.firstname': profile.name.givenName,
+                'google.lastname': profile.name.familyName
             }).save()
             
             //and generate a token

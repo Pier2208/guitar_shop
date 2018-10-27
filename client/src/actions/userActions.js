@@ -1,7 +1,10 @@
-import { REGISTER_USER, 
-         SET_FORM_ERROR, 
-         CLEAR_ERROR, 
-         LOGIN_USER } from "./types";
+import {
+    REGISTER_USER,
+    SET_FORM_ERROR,
+    CLEAR_ERROR,
+    LOGIN_USER,
+    GET_CURRENT_USER
+} from "./types";
 import axios from 'axios'
 
 
@@ -10,7 +13,7 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
     try {
         //http request --> register user endpoint
         const response = await axios.post('/api/users/register', formdata)
-        
+
         //if response.status === 200 || response.statusText === "OK"
         console.log('response.statusText', response.statusText)
         console.log('response.status', response.status)
@@ -70,7 +73,7 @@ export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => 
         //then reset form fields
         resetForm()
 
-    } catch(err) {
+    } catch (err) {
         //if err.response.status > 299 or err.response.statusText==='Bad request'
         dispatch({
             type: SET_FORM_ERROR,
@@ -82,5 +85,27 @@ export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => 
         //map errors to form fields
         setFieldError('email', err.response.data.email)
         setFieldError('password', err.response.data.password)
+    }
+}
+
+
+export const getCurrentUser = () => async dispatch => {
+
+    try {
+        //http request to authUser endpoint
+        const response = await axios.get('/api/users/auth')
+
+        //if response.status===200 || response.statusText==='OK'
+        dispatch({
+            type: GET_CURRENT_USER,
+            payload: response.data
+        })
+    
+    } catch (err) {
+        //if response.status===401 (unauthorized)
+        dispatch({
+            type: GET_CURRENT_USER,
+            payload: err.response.data
+        })
     }
 }
