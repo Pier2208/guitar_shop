@@ -90,9 +90,9 @@ module.exports = {
 
         res.status(200).json({
             isAuth: true,
-            firstname: req.user.local.firstname || req.user.google.firstname,
-            lastname: req.user.local.lastname || req.user.google.lastname,
-            email: req.user.local.email || req.user.google.email,
+            firstname: req.user.local.firstname || req.user.google.firstname || req.user.amazon.firstname,
+            lastname: req.user.local.lastname || req.user.google.lastname || req.user.amazon.lastname,
+            email: req.user.local.email || req.user.google.email || req.user.amazon.email,
             role: req.user.role,
             history: req.user.history,
             cart: req.user.cart

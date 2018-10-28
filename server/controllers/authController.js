@@ -9,5 +9,12 @@ module.exports = {
         res.cookie('w_auth', req.user.token)
             .status(200)
             .redirect('/user/dashboard')
+    },
+
+    amazonOAuth: (req, res) => {
+        //user
+        res.cookie('w_auth', req.user.token)
+            .status(200)
+            .redirect('/user/dashboard')
     }
 }

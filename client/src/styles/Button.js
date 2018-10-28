@@ -50,17 +50,19 @@ export const SocialButton = styled.div`
   align-items: center;
   width: 25rem;
   padding: .6rem;
-  color: #ffffff;
+  color: ${props => props.amazon ? '#000' : '#fff'};
   font-size: 2rem;
-  font-weight: 300;
+  font-weight: 400;
   border-radius: 6px;
   margin-bottom: 1.1rem;
   background-color: ${props => props.facebook && '#484D8F'};
   background-color: ${props => props.google && '#CB4D36'};
+  background-color: ${props => props.amazon && '#ff9900'};
 
-  > svg {
+  svg {
       font-size: 2.2rem;
       margin-right: 1rem;
+      color: ${props => props.amazon && '#000'};
   }
 
   :hover {

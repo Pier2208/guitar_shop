@@ -46,7 +46,7 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
 
         setSubmitting(false)
 
-        //map error to field
+        //map error to form field
         //case: email already exists in db
         setFieldError('email', err.response.data.email)
     }
@@ -83,6 +83,7 @@ export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => 
         setSubmitting(false)
 
         //map errors to form fields
+        //cases: email not found in DB || password not found in DB
         setFieldError('email', err.response.data.email)
         setFieldError('password', err.response.data.password)
     }

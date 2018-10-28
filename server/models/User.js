@@ -9,7 +9,7 @@ require('dotenv').config()
 const userSchema = new Schema({
     authMethod: {
         type: String,
-        enum: ['local', 'facebook', 'google'],
+        enum: ['local', 'facebook', 'google', 'amazon'],
         required: true
     },
     local: {
@@ -37,6 +37,12 @@ const userSchema = new Schema({
         id: String
     },
     google: {
+        id: String,
+        email: String,
+        firstname: String,
+        lastname: String
+    },
+    amazon: {
         id: String,
         email: String,
         firstname: String,

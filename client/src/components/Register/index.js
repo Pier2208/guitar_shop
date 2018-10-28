@@ -75,6 +75,12 @@ class Register extends Component {
                         <FontAwesomeIcon icon={['fab', 'google']} />
                         Google
                     </SocialButton>
+                    <a href="/auth/amazon">
+                    <SocialButton amazon>
+                        <FontAwesomeIcon icon={['fab', 'amazon']} />
+                        Amazon
+                    </SocialButton>
+                    </a>
                     </a>
                     <p>Already have an account? <Link to='/login'>Log In</Link></p>
                 </FormContainer>

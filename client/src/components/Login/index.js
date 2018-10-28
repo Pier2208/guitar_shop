@@ -74,6 +74,12 @@ class Login extends Component {
                         Google
                     </SocialButton>
                     </a>
+                    <a href="/auth/amazon">
+                    <SocialButton amazon>
+                        <FontAwesomeIcon icon={['fab', 'amazon']} />
+                        Amazon
+                    </SocialButton>
+                    </a>
                     <p>No account yet? <Link to='/register'>Register</Link></p>
                 </FormContainer>
             </Wrapper>

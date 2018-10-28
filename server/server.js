@@ -3,13 +3,10 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 
-
 require('dotenv').config()
-
 
 //init app
 const app = express()
-
 
 //mongoose connect
 mongoose.set('useCreateIndex', true)
@@ -27,7 +24,6 @@ app.use(cookieParser())
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/products', require('./routes/productRoutes'))
-
 
 
 //listening to
