@@ -8,12 +8,16 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 //color styles
 import { theme } from './styles/theme'
 
-//components
-import Dashboard from './components/Dashboard'
+//components (public)
 import Home from './components/Home'
 import Layout from './components/UI/HOC/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
+import Shop from './components/Shop'
+
+//components (private)
+import Dashboard from './components/Dashboard'
+
 
 //withAuth HOC
 import withAuth from './components/UI/HOC/withAuth'
@@ -58,6 +62,7 @@ const App = () => {
                     {/* from most to less specific  */}
                     {/* HOC withAuth: a fn that returns a customized class  */}
                     <Route exact path="/user/dashboard" component={withAuth(Dashboard, true)} />
+                    <Route exact path="/shop" component={withAuth(Shop, null)} />
                     <Route exact path="/register" component={withAuth(Register, false)} />
                     <Route exact path="/login" component={withAuth(Login, false)} />
                     <Route exact path="/" component={withAuth(Home, null)} />

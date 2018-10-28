@@ -17,14 +17,14 @@ passport.use(new AmazonStrategy({
 
             const existingUser = await User.findOne({ "amazon.id": profile._json.user_id })
 
-            //if a user exists with this googleID, just create a new token
+            //if a user exists with this amazonID, just create a new token
             if (existingUser) {
                 existingUser.generateToken((err, user) => {
                     if (err) throw err
                     done(null, user)
                 })
             }
-            //if no existing user with this googleID , create a new user
+            //if no existing user with this amazonID , create a new user
             const user = await new User({
                 'authMethod': 'amazon',
                 'amazon.id': profile._json.user_id,

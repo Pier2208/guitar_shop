@@ -19,8 +19,8 @@ router.post('/brand', authenticate, isAdmin, validateBody(schemas.brandSchema), 
 
 //@ GET 'api/products/brands
 //@ Desc Get a list of all brands
-//@ PRIVATE and ADMIN route
-router.get('/brands', authenticate, isAdmin, productController.fetchBrands)
+//@ PUBLIC
+router.get('/brands', productController.fetchBrands)
 
 
 //@ POST 'api/products/wood
@@ -31,8 +31,8 @@ router.post('/wood', authenticate, validateBody(schemas.woodSchema), productCont
 
 //@ GET 'api/products/woods
 //@ Desc Get a list of all woods
-//@ PRIVATE and ADMIN route
-router.get('/woods', authenticate, productController.fetchWoods)
+//@ PUBLIC
+router.get('/woods', productController.fetchWoods)
 
 
 //@ POST 'api/products/new_product

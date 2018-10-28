@@ -4,9 +4,10 @@ import DashboardLayout from '../UI/HOC/DashboardLayout'
 
 class Dashboard extends Component {
   render() {
+    console.log(this.props)
     return (
       <DashboardLayout>
-        VIEW
+        VIEW for mister {this.props.user.userInfo.firstname}
       </DashboardLayout>
     )
   }
