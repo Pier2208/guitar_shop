@@ -30,7 +30,7 @@ class CollapseCheckbox extends Component {
     }
 
     //function to toggle the checkbox on click
-    toggleCheckbox = () => {
+    toggleCollapse = () => {
         this.setState({ open: !this.state.open })
     }
 
@@ -81,7 +81,7 @@ render() {
 
     return (
         <List style={{ borderBottom: '1px solid #F7F7F2' }}>
-            <ListItem onClick={this.toggleCheckbox}>
+            <ListItem onClick={this.toggleCollapse}>
                 <ListItemText
                     primary={this.props.title}
                 />
