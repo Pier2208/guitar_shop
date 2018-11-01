@@ -19,6 +19,15 @@ class CollapseRadio extends Component {
         radioSelected: "0"
     }
 
+    componentDidMount() {
+        if(this.props.initState) {
+            this.setState({
+                open: this.props.initState
+            })
+        }
+    }
+
+    
     toggleCollapse = () => {
         this.setState({
             open: !this.state.open

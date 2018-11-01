@@ -4,6 +4,7 @@ export const GET_CURRENT_USER = 'GET_CURRENT_USER'
 
 export const GET_BRANDS = 'GET_BRANDS'
 export const GET_WOODS = 'GET_WOODS'
+export const GET_FILTERED_PRODUCTS = 'GET_FILTERED_PRODUCTS'
 
 export const SET_FORM_ERROR = 'SET_FORM_ERROR'
 export const CLEAR_ERROR = 'CLEAR_ERROR'

@@ -1,6 +1,7 @@
 import {
     GET_BRANDS,
-    GET_WOODS
+    GET_WOODS,
+    GET_FILTERED_PRODUCTS
 } from '../actions/types'
 
 const INITIAL_STATE = {}
@@ -17,6 +18,12 @@ export default (state=INITIAL_STATE, action) => {
             return {
                 ...state,
                 woods: action.payload
+            }
+        case GET_FILTERED_PRODUCTS:
+            return {
+                ...state,
+                filteredProducts: action.payload.articles,
+                filteredProductsSize: action.payload.size
             }
         default:
             return state

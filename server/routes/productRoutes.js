@@ -48,9 +48,16 @@ router.get('/search_by_id', productController.searchById)
 
 
 //@ GET 'api/products/search?sortBy=sold&order=desc&limit=4
-//@ Desc Get one or several product(s) by ID
+//@ Desc Fetch products sorted by.../ordered/limited
 //@ PUBLIC route
 router.get('/search', productController.searchProducts)
+
+//@ POST 'api/products/shop
+//@ Desc Fetch filtered products to shop component
+//@ PUBLIC route
+router.post('/shop', productController.getFilteredProducts)
+
+
 
 
 module.exports = router

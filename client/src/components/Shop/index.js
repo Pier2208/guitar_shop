@@ -7,7 +7,7 @@ import CollapseCheckbox from '../utils/CollapseCheckbox'
 import CollapseRadio from '../utils/CollapseRadio'
 
 //action creators
-import { getBrands, getWoods } from '../../actions/productActions'
+import { getBrands, getWoods, getFilteredProducts } from '../../actions/productActions'
 
 //import fixed_categories
 import { frets, prices } from '../utils/fixed_categories'
@@ -30,6 +30,8 @@ const StyledView = styled.div`
 class Shop extends Component {
 
     state = {
+        limit: 6,
+        skip: 0,
         filters: {
             brand: [],
             frets: [],
@@ -40,8 +42,17 @@ class Shop extends Component {
 
 
     async componentDidMount() {
+        //fetch brands
         await this.props.getBrands()
+        //fetch woods
         await this.props.getWoods()
+        
+        //action creator to submit filters to server
+        await this.props.getFilteredProducts(
+            this.state.limit,
+            this.state.skip,
+            this.state.filters
+        )
     }
 
     //pass data from child to parent
@@ -133,4 +144,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, { getBrands, getWoods })(Shop)
+export default connect(mapStateToProps, { getBrands, getWoods, getFilteredProducts })(Shop)
