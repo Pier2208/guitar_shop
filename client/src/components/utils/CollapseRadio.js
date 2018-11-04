@@ -8,8 +8,26 @@ import {
     Radio,
     RadioGroup,
     FormControlLabel,
-    Collapse
+    Collapse,
+    withStyles
 } from '@material-ui/core'
+
+//custom styles
+const styles = {
+    categoryName: {
+        fontSize: '1.6rem',
+        fontWeight: 'bold',
+        color: '#47524D'
+    },
+    listItem: {
+        fontSize: '1.3rem',
+        textTransform: 'Capitalize',
+        paddinLeft: '2rem'
+    },
+    list: {
+        paddingLeft: '2rem'
+    }
+}
 
 
 class CollapseRadio extends Component {
@@ -43,14 +61,15 @@ class CollapseRadio extends Component {
     }
 
 
-    renderList = () => {
+    renderList = (classes) => {
         if (this.props.list) {
             return this.props.list.map(item => (
                 <FormControlLabel
                     key={item._id}
                     value={`${item._id}`}
-                    control={<Radio style={{ color: "#f08f65" }} />}
+                    control={<Radio style={{ color: "#9B9B9B" }} />}
                     label={item.name}
+                    classes={{label: classes.listItem}}
                 />
             ))
         }
@@ -58,10 +77,12 @@ class CollapseRadio extends Component {
 
     render() {
 
+        const { classes } = this.props
+
         return (
-            <List style={{ borderBottom: '1px solid #F7F7F2' }}>
-                <ListItem onClick={this.toggleCollapse}>
-                    <ListItemText primary={this.props.title} />
+            <List>
+                <ListItem onClick={this.toggleCollapse} >
+                    <ListItemText primary={this.props.title} classes={{primary: classes.categoryName}} />
                     {this.state.open ?
                         <FontAwesomeIcon icon="angle-up" />
                         :
@@ -73,14 +94,14 @@ class CollapseRadio extends Component {
                     timeout="auto"
                     unmountOnExit
                 >
-                    <List component="div" disablePadding>
+                    <List component="div" disablePadding className={classes.list}>
                         <RadioGroup
                             aria-label="prices"
                             name="prices"
                             value={this.state.radioSelected}
                             onChange={this.handleRadioClick}
                         >
-                            {this.renderList()}
+                            {this.renderList(classes)}
                         </RadioGroup>
                     </List>
                 </Collapse>
@@ -89,4 +110,4 @@ class CollapseRadio extends Component {
     }
 }
 
-export default CollapseRadio
+export default withStyles(styles)(CollapseRadio)

@@ -10,7 +10,7 @@ const StyledLogo = styled.div`
     margin-right: auto;
     
     h1 {
-        font-family: 'Lobster';
+        font-family: 'Permanent Marker';
         font-weight: 300;
         color: ${ props => props.theme.fontColorLight };
         margin: 0;

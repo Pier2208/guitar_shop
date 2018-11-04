@@ -8,8 +8,22 @@ import {
     ListItemText,
     ListItemSecondaryAction,
     Checkbox,
-    Collapse
+    Collapse,
+    withStyles
 } from '@material-ui/core'
+
+//custom styles
+const styles = {
+    categoryName: {
+        fontSize: '1.6rem',
+        fontWeight: 'bold',
+        color: '#47524D'
+    },
+    listItem: {
+        fontSize: '1.3rem',
+        textTransform: 'Capitalize'
+    }
+}
 
 
 class CollapseCheckbox extends Component {
@@ -57,17 +71,18 @@ class CollapseCheckbox extends Component {
     }
 
 //function to render list of brand checkbox items
-renderList = () => {
+renderList = (classes) => {
     //if a prop list has been passed in
     if (this.props.list) {
         return this.props.list.map(item => (
             <ListItem key={item._id}>
                 <ListItemText 
+                    classes={{primary: classes.listItem}}
                     primary={item.name}
                 />
                 <ListItemSecondaryAction>
                     <Checkbox
-                        style={{ color: "#f08f65" }}
+                        style={{ color: "#9B9B9B" }}
                         onChange={this.handleToggle(item._id)}
                         checked={this.state.itemsChecked.indexOf(item._id) !== -1}
                     />
@@ -79,10 +94,13 @@ renderList = () => {
 
 render() {
 
+    const { classes } = this.props
+
     return (
-        <List style={{ borderBottom: '1px solid #F7F7F2' }}>
+        <List style={{ borderBottom: '1px solid #F7F7F2'}}>
             <ListItem onClick={this.toggleCollapse}>
                 <ListItemText
+                    classes={{primary: classes.categoryName}}
                     primary={this.props.title}
                 />
                 {this.state.open ?
@@ -97,7 +115,7 @@ render() {
                 unmountOnExit
             >
                 <List component="div" disablePadding>
-                    {this.renderList()}
+                    {this.renderList(classes)}
                 </List>
             </Collapse>
         </List>
@@ -105,4 +123,4 @@ render() {
 }
 }
 
-export default CollapseCheckbox
+export default withStyles(styles)(CollapseCheckbox)

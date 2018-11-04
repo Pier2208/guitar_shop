@@ -29,7 +29,7 @@ export const SubmitButton = styled.button`
     border-radius: 6px;
     background-color: #EF8354;
     color: ${props => props.theme.fontColorLight};
-    font-size: 2.5rem;
+    font-size: '2rem';
     padding: 0;
     outline: none;
     border: none;
@@ -69,3 +69,39 @@ export const SocialButton = styled.div`
       cursor: pointer;
   }
   `
+
+export const ViewButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .7rem;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: ${props => props.theme.fontColorLight};
+    margin-bottom: 1.1rem;
+    background-color: ${props => props.theme.accentColorLight};
+    border: 1px solid ${props => props.theme.accentColorLight};
+    text-transform: uppercase;
+
+    :hover {
+        background-color: ${props => props.theme.accentColor};
+        cursor: pointer;
+    }
+`
+
+export const AddToCartButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .7rem;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: ${props => props.theme.primaryColorLight};
+    margin-bottom: 1.1rem;
+    border: 1px solid ${props => props.theme.accentColorLight};
+
+    :hover {
+        color: ${props => props.theme.primaryColorDark};
+        cursor: pointer;
+    }
+`

@@ -2,7 +2,9 @@ import axios from 'axios'
 import {
     GET_BRANDS,
     GET_WOODS,
-    GET_FILTERED_PRODUCTS
+    GET_FILTERED_PRODUCTS,
+    GET_PRODUCTS_BY_ARRIVAL,
+    GET_PRODUCTS_BY_SELL
 } from './types'
 
 
@@ -56,6 +58,40 @@ export const getFilteredProducts = (limit, skip, filters={}) => async dispatch =
         //if response.status===200 || response.statusText ==="OK"
         dispatch({
             type: GET_FILTERED_PRODUCTS,
+            payload: response.data
+        })
+
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const getProductsByArrival = () => async dispatch => {
+
+    try {
+        //http request to 'api/products/search?sortBy=createdAt&order=desc&limit=3'
+        const response = await axios.get('api/products/search?sortBy=createdAt&order=desc&limit=3')
+
+        //if response.status === 200 || response.statusText === "OK"
+        dispatch({
+            type: GET_PRODUCTS_BY_ARRIVAL,
+            payload: response.data
+        })
+
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+export const getProductsBySell = () => async dispatch => {
+
+    try {
+        //http request to 'api/products/search?sortBy=sold&order=desc&limit=4'
+        const response = await axios.get('api/products/search?sortBy=sold&order=desc&limit=4')
+
+        //if response.status === 200 || response.statusText === "OK"
+        dispatch({
+            type: GET_PRODUCTS_BY_SELL,
             payload: response.data
         })
 
