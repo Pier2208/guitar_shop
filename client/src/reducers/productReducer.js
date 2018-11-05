@@ -24,7 +24,7 @@ export default (state=INITIAL_STATE, action) => {
         case GET_FILTERED_PRODUCTS:
             return {
                 ...state,
-                filteredProducts: action.payload.articles,
+                filteredProducts: action.payload.products,
                 filteredProductsSize: action.payload.size
             }
         case GET_PRODUCTS_BY_SELL: 

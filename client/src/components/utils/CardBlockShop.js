@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-//Material UI library
-import { CircularProgress } from '@material-ui/core'
 
 import Card from './Card'
 
@@ -12,6 +10,7 @@ const Container = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
+    margin-bottom: 2rem;
 `
 
 const CardBlockShop = props => {
@@ -22,10 +21,7 @@ const CardBlockShop = props => {
                 <Card key={card._id} {...card} grid={props.grid} />
             ))
             :
-            <CircularProgress
-                style={{ color: '#EF8354' }}
-                thickness={5}
-            />
+            null
     )
 
     return (

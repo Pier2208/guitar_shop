@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { ViewButton, AddToCartButton } from '../../styles/Button'
 
+//react reveal
+import Fade from 'react-reveal/Fade';
+
 //styled components
 const StyledCard = styled.div`
     flex: 0 1 28rem;
@@ -67,6 +70,7 @@ class Card extends Component {
   render() {
     return (
       <StyledCard>
+        <Fade>
         <CardImage
           style={{
             background: `url(${this.renderCardImage(this.props.images)}) no-repeat`,
@@ -85,6 +89,7 @@ class Card extends Component {
             <FontAwesomeIcon icon="shopping-bag" />
           </AddToCartButton>
         </CardActions>
+        </Fade>
       </StyledCard>
     )
   }

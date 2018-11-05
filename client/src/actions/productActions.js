@@ -42,7 +42,7 @@ export const getWoods = () => async dispatch => {
     }
 }
 
-export const getFilteredProducts = (limit, skip, filters={}) => async dispatch => {
+export const getFilteredProducts = (limit, skip, filters={}, previousState=[]) => async dispatch => {
 
     try {
         //create an object data to submit to server made available on req.body
@@ -55,10 +55,19 @@ export const getFilteredProducts = (limit, skip, filters={}) => async dispatch =
         //http request to shop endpoint
         const response = await axios.post('api/products/shop', dataToSubmit)
 
+        //merge previous state with current state
+        let newState = [
+            ...previousState,
+            ...response.data.articles
+        ]
+
         //if response.status===200 || response.statusText ==="OK"
         dispatch({
             type: GET_FILTERED_PRODUCTS,
-            payload: response.data
+            payload: {
+                products: newState,
+                size: response.data.filteredProductsSize
+            }
         })
 
     } catch(err) {

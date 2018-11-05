@@ -21,7 +21,8 @@ const styles = {
     },
     listItem: {
         fontSize: '1.3rem',
-        textTransform: 'Capitalize'
+        textTransform: 'Capitalize',
+        cursor: 'pointer'
     }
 }
 
@@ -75,7 +76,9 @@ renderList = (classes) => {
     //if a prop list has been passed in
     if (this.props.list) {
         return this.props.list.map(item => (
-            <ListItem key={item._id}>
+            <ListItem
+                onClick={this.handleToggle(item._id)}
+                key={item._id}>
                 <ListItemText 
                     classes={{primary: classes.listItem}}
                     primary={item.name}

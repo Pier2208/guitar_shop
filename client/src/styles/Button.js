@@ -69,7 +69,7 @@ export const SocialButton = styled.div`
       cursor: pointer;
   }
   `
-
+// View button
 export const ViewButton = styled.div`
     display: flex;
     justify-content: center;
@@ -89,6 +89,7 @@ export const ViewButton = styled.div`
     }
 `
 
+// add to cart button
 export const AddToCartButton = styled.div`
     display: flex;
     justify-content: center;
@@ -104,4 +105,28 @@ export const AddToCartButton = styled.div`
         color: ${props => props.theme.primaryColorDark};
         cursor: pointer;
     }
+`
+
+// Load more button
+export const LoadMoreButton = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  padding: .6rem;
+  font-size: 1.7rem;
+  background: #fff;
+  border: 2px solid ${props => props.theme.fontColorDark};
+
+  svg {
+      font-size: 4rem;
+      color: ${props => props.theme.fontColorDark};
+  }
+
+  :hover {
+      cursor: pointer;
+  }
 `

@@ -28,7 +28,7 @@ library.add(fab, fas)
 
 const GlobalStyle = createGlobalStyle`
 
-    @import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Montserrat:300,400');
+    @import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Montserrat:300,400|Courgette');
     
     html {
         box-sizing: border-box;

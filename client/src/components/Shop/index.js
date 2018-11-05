@@ -77,7 +77,10 @@ class Shop extends Component {
         }
         //update the state
         this.setState({
-            filters: newFilters
+            //with new filters
+            filters: newFilters,
+            //reset the skip, new search = go from 0 again
+            skip: 0
         }, () => {
             this.showFilteredResults(this.state.filters)
         })
@@ -109,8 +112,27 @@ class Shop extends Component {
         return array
     }
 
+    loadMoreCards = () => {
+        //set the new value of skip
+        let skip = this.state.skip + this.state.limit
+
+        //do server request
+        this.props.getFilteredProducts(
+            this.state.limit,
+            skip,
+            this.state.filters,
+            //pass in the current state
+            this.props.products.filteredProducts
+        )
+        //set new state of skip
+        this.setState({
+            skip
+        })
+    }
+
 
     render() {
+        console.log('skip', this.state.skip)
 
         return (
             <div>
@@ -155,7 +177,7 @@ class Shop extends Component {
                             limit={this.state.limit}
                             list={this.props.products.filteredProducts}
                             size={this.props.products.filteredProductsSize}
-                            loadmore={() => console.log('load more')}
+                            loadmore={() => this.loadMoreCards()}
                         />
                     </StyledView>
                 </ShopContainer>
