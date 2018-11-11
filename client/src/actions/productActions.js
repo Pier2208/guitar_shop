@@ -4,7 +4,11 @@ import {
     GET_WOODS,
     GET_FILTERED_PRODUCTS,
     GET_PRODUCTS_BY_ARRIVAL,
-    GET_PRODUCTS_BY_SELL
+    GET_PRODUCTS_BY_SELL,
+    ADD_PRODUCT,
+    CLEAR_ERROR,
+    SET_FORM_ERROR,
+    CLEAR_PRODUCT
 } from './types'
 
 
@@ -108,3 +112,48 @@ export const getProductsBySell = () => async dispatch => {
         console.log(err)
     }
 }
+
+export const addProduct = (formdata, resetForm, setFieldError, setSubmitting) => async dispatch => {
+
+    try {
+        //http request to 'api/products/new_product'
+        const response = await axios.post('/api/products/new_product', formdata)
+
+        //if response.status === 200 || response.statusText === 'OK'
+        dispatch({
+            type: ADD_PRODUCT,
+            payload: response.data
+        })
+
+        //and clear all form error if any
+        dispatch({
+            type: CLEAR_ERROR
+        })
+
+        //and reset form fields
+        resetForm()
+
+    } catch(err) {
+
+        //if response.status > 299 || response.statusText === "bad request"
+        console.log('err.response.status', err.response.status)
+        console.log('err.response.statusText', err.response.statusText)
+
+        //then dispatch action to errorReducer
+        dispatch({
+            type: SET_FORM_ERROR,
+            payload: err.response.data
+        })
+
+        setSubmitting(false)
+
+        //map error to form field
+        //case: email already exists in db
+        setFieldError('name', err.response.data.name)
+
+    }
+}
+
+export const clearProduct = () => ({
+    type: CLEAR_PRODUCT
+})

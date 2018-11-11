@@ -89,12 +89,12 @@ module.exports = {
             //check if name of product not already in database
             const existingProduct = await Product.findOne({ name: req.body.name })
             if (existingProduct) {
-                return res.status(400).json({ error: 'A product with an identical name is already in database' })
+                return res.status(400).json({ name: 'A product with an identical name is already in database' })
             }
 
             //create a new product and save to database
             const product = await new Product(req.body).save()
-            res.status(200).json({ msg: 'New product successfuly added', product })
+            res.status(200).json({ success: true, product })
 
         } catch (err) {
             res.status(400).json(err)

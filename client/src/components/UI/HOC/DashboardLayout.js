@@ -67,15 +67,15 @@ const links = [
 const adminLinks = [
     {
         name: 'Site Info',
-        linkTo: '/admin/site_info'
+        linkTo: '/site_info'
     },
     {
         name: "Add Products",
-        linkTo: '/admin/add_product'
+        linkTo: '/add_product'
     },
     {
         name: "Manage Categories",
-        linkTo: '/admin/manage_categories'
+        linkTo: '/manage_categories'
     }
 ]
 
@@ -102,7 +102,8 @@ const DashboardLayout = props => {
                 <StyledMenu>
                     {renderLinks(links)}
                     {
-                        props.user.role === 'default' ?
+                        props.user.role === 'admin'
+                         ?
                             renderLinks(adminLinks)
                         : null
                     }

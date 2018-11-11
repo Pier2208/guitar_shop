@@ -10,18 +10,21 @@ import AddProductForm from './AddProductForm'
 //import action creators
 import { getWoods, getBrands } from '../../../actions/productActions'
 
+
 class AddProduct extends Component {
 
     componentDidMount() {
         this.props.getWoods()
         this.props.getBrands()
-        console.log(this.props.products)
     }
+
 
     render() {
         return (
             <DashboardLayout>
-                <AddProductForm />
+                <AddProductForm 
+                    products={this.props.products}
+                />
             </DashboardLayout>
         )
     }

@@ -1,11 +1,16 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 
 //Formik and validation library
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { Input, Textarea, Select } from '../../../styles/Input';
+import { SubmitButton } from '../../../styles/Button'
+
+//import action creator
+import { addProduct, clearProduct } from '../../../actions/productActions'
 
 //styled components
 const Form = styled.form`
@@ -41,7 +46,9 @@ const ErrorMessage = styled.div`
 
 
 class AddProductForm extends Component {
+
     render() {
+
         return (
             <Formik
                 initialValues={{
@@ -61,7 +68,7 @@ class AddProductForm extends Component {
                             .max(50, 'Product name must be less than 50 characters')
                             .required('Product name is required'),
                         description: Yup.string()
-                            .min(50, 'Description must be at least 50 characters')
+                            .min(30, 'Description must be at least 50 characters')
                             .required('A description is required'),
                         price: Yup.number()
                             .positive('Negative numbers are not allowed')
@@ -80,7 +87,12 @@ class AddProductForm extends Component {
                             .required('Please specify if product can be published')
                     })
                 }
-                onSubmit={values => console.log(values)}
+                onSubmit={ async (values, {resetForm, setFieldError, setSubmitting}) => {
+                    await this.props.addProduct(values, resetForm, setFieldError, setSubmitting)
+                    setTimeout(() => {
+                        this.props.clearProduct()
+                    }, 5000)
+                }}
             >
                 {
                     ({
@@ -153,7 +165,15 @@ class AddProductForm extends Component {
                                         >
                                             <option value="" label="Select..." />
                                             {
-                                                
+                                                this.props.products.brands ?
+                                                    this.props.products.brands.map(brand => {
+                                                        return <option
+                                                            key={brand._id}
+                                                            value={brand._id}
+                                                            label={brand.name}
+                                                        />
+                                                    })
+                                                    : null
                                             }
                                         </Select>
                                     </Label>
@@ -207,9 +227,17 @@ class AddProductForm extends Component {
                                             border={touched.wood && errors.wood && '1px solid #CB4D36'}
                                         >
                                             <option value="" label="Select..." />
-                                            <option value="red" label="red" />
-                                            <option value="blue" label="blue" />
-                                            <option value="green" label="green" />
+                                            {
+                                                this.props.products.woods ?
+                                                    this.props.products.woods.map(wood => {
+                                                        return <option
+                                                            key={wood._id}
+                                                            value={wood._id}
+                                                            label={wood.name}
+                                                        />
+                                                    })
+                                                    : null
+                                            }
                                         </Select>
                                     </Label>
                                     {touched.wood && errors.wood && <ErrorMessage>{errors.wood}</ErrorMessage>}
@@ -229,7 +257,7 @@ class AddProductForm extends Component {
                                             <option value="20" label="20" />
                                             <option value="21" label="21" />
                                             <option value="22" label="22" />
-                                            <option value="23" label="23" />
+                                            <option value="24" label="24" />
                                         </Select>
                                     </Label>
                                     {touched.frets && errors.frets && <ErrorMessage>{errors.frets}</ErrorMessage>}
@@ -252,6 +280,12 @@ class AddProductForm extends Component {
                                     </Label>
                                     {touched.published && errors.published && <ErrorMessage>{errors.published}</ErrorMessage>}
                                 </div>
+
+                                <div>
+                                <SubmitButton 
+                                    type="submit"
+                                    disabled={isSubmitting}>Submit</SubmitButton>
+                            </div>
                             </Form>
                         )
                 }
@@ -260,4 +294,8 @@ class AddProductForm extends Component {
     }
 }
 
-export default AddProductForm
+const mapStateToProps = state => ({
+    products: state.products
+})
+
+export default connect(null, { addProduct, clearProduct })(AddProductForm)

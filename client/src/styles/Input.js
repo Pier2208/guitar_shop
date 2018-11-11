@@ -13,6 +13,11 @@ export const Input = styled.input`
     color: #9B9B9B;
     outline: 0;
     transition: border .2s ease;
+    
+    :-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+ 
 
     ::placeholder {
         color: #DBD9DC;
