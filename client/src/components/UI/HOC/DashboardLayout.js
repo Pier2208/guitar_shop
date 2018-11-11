@@ -25,8 +25,8 @@ const StyledMenu = styled.div`
     display: flex;
     flex-direction: column;
     flex-basis: 25%;
-    height: 100vh;
 `
+
 const StyledBoxMenu = styled.div`
     display: flex;
     align-items: center;
@@ -64,6 +64,21 @@ const links = [
     }
 ]
 
+const adminLinks = [
+    {
+        name: 'Site Info',
+        linkTo: '/admin/site_info'
+    },
+    {
+        name: "Add Products",
+        linkTo: '/admin/add_product'
+    },
+    {
+        name: "Manage Categories",
+        linkTo: '/admin/manage_categories'
+    }
+]
+
 
 
 const DashboardLayout = props => {
@@ -86,7 +101,12 @@ const DashboardLayout = props => {
             <Container>
                 <StyledMenu>
                     {renderLinks(links)}
-                </StyledMenu>
+                    {
+                        props.user.role === 'default' ?
+                            renderLinks(adminLinks)
+                        : null
+                    }
+                </StyledMenu> 
                 <StyledView>
                     {props.children}
                 </StyledView>
