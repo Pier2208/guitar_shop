@@ -6,6 +6,8 @@ import { connect } from 'react-redux'
 import DashboardLayout from '../../UI/HOC/DashboardLayout'
 //import Form
 import AddProductForm from './AddProductForm'
+//import Snackbar
+import CustomSnackbar from '../../utils/CustomSnackbar'
 
 //import action creators
 import { getWoods, getBrands } from '../../../actions/productActions'
@@ -20,11 +22,23 @@ class AddProduct extends Component {
 
 
     render() {
+        
         return (
             <DashboardLayout>
                 <AddProductForm 
                     products={this.props.products}
                 />
+                {
+                    this.props.products.addProduct ?
+                    this.props.products.addProduct.success ?
+                        <CustomSnackbar
+                            initState={true} 
+                            variant='success' 
+                            message={`${this.props.products.addProduct.product.name} added successfully!`}
+                        />
+                        : null
+                        : null
+                    }
             </DashboardLayout>
         )
     }

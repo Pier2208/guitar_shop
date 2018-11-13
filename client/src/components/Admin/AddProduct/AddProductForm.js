@@ -298,4 +298,4 @@ const mapStateToProps = state => ({
     products: state.products
 })
 
-export default connect(null, { addProduct, clearProduct })(AddProductForm)
+export default connect(mapStateToProps, { addProduct, clearProduct })(AddProductForm)
