@@ -1,4 +1,5 @@
 const { User } = require('../models/User')
+const cloudinary = require('cloudinary')
 
 module.exports = {
 
@@ -97,5 +98,25 @@ module.exports = {
             history: req.user.history,
             cart: req.user.cart
         })
+    },
+
+    uploadImage: (req, res) => {
+
+        cloudinary.uploader.upload(
+            //path to the image uploaded
+            req.files.file.path,
+            //callback once image upload done
+            (result) => {
+                console.log(result)
+                res.status(200).send({
+                    public_id: result.public_id,
+                    url: result.url
+                })
+            },
+            {
+                public_id: `${Date.now()}`,
+                resource_type: 'auto'
+            }
+        )
     }
 }

@@ -7,6 +7,7 @@ const userController = require('../controllers/userController')
 //middlewares
 const { authenticate } = require('../middlewares/authenticate')
 const { validateBody, schemas } = require('../middlewares/validate')
+const { isAdmin } = require('../middlewares/isAdmin')
 
 
 //@ POST 'api/users/register'
@@ -28,6 +29,11 @@ router.get('/auth', authenticate, userController.authUser)
 //@ Desc Fetch current user
 //PRIVATE route
 router.get('/logout', authenticate, userController.logoutUser)
+
+//@ GET 'api/users/uploadimage'
+//@ Desc Upload an image
+//PRIVATE  & ADMIN route
+router.post('/uploadimage', authenticate, isAdmin, userController.uploadImage)
 
 
 module.exports = router

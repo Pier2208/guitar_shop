@@ -12,6 +12,9 @@ import { SubmitButton } from '../../../styles/Button'
 //import action creator
 import { addProduct, clearProduct } from '../../../actions/productActions'
 
+//import FileUpload
+import FileUpload from '../../utils/FileUpload'
+
 //styled components
 const Form = styled.form`
     display: flex;
@@ -84,7 +87,6 @@ class AddProductForm extends Component {
                         frets: Yup.number()
                             .required('Please select frets'),
                         published: Yup.boolean()
-                            .required('Please specify if product can be published')
                     })
                 }
                 onSubmit={ async (values, {resetForm, setFieldError, setSubmitting}) => {
@@ -105,6 +107,12 @@ class AddProductForm extends Component {
                         isSubmitting
                     }) => (
                             <Form onSubmit={handleSubmit} noValidate>
+
+                                <Label>
+                                    <span>Product Images</span>
+                                </Label>
+                                <FileUpload />
+
                                 <div>
                                     <Label>
                                         <span>Product Name</span>
