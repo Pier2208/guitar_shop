@@ -101,7 +101,7 @@ module.exports = {
         })
     },
 
-    uploadImage: async (req, res) => {
+    uploadImage: (req, res) => {
 
             cloudinary.uploader.upload(
             //path to the image uploaded
@@ -119,5 +119,20 @@ module.exports = {
                 resource_type: 'auto'
             }
         )
+    },
+
+    removeImage: (req, res) => {
+
+        //get image id from query string
+        let image_id = req.query.public_id
+        console.log('query', image_id)
+
+        //tells Couldinary to delete the image
+        cloudinary.uploader.destroy(image_id, (response) => {
+            if(response.result != 'ok') {
+                return res.status(500).json({msg: 'Something went wrong', repsonse})
+            }
+            return res.status(200).json(response)
+        })
     }
 }

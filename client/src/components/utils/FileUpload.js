@@ -45,6 +45,7 @@ const ImagePreviewContainer = styled.div`
 `
 
 const ImageBox = styled.div`
+    position: relative;
     width: 11rem;
     height: 11rem;
 
@@ -52,6 +53,28 @@ const ImageBox = styled.div`
         width: 10rem;
         height: 10rem;
         background-size: cover !important;
+    }
+`
+const ImageBoxOverlay = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.2);
+    opacity: 0;
+    height: 5rem;
+    transition: opacity 0.4s;
+
+    &:hover,
+    &:active {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+    svg {
+        color: white;
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
     }
 `
 
@@ -109,15 +132,30 @@ class FileUpload extends Component {
 
     showUploadedImages = () => {
         return this.state.uploadedFiles.map(item => (
-            <ImageBox key={item.public_id}>
+            <ImageBox
+                key={item.public_id}>
                 <div style={{
                     background: `no-repeat center url(${item.url})`
                 }}>
+                    <ImageBoxOverlay>
+                        <FontAwesomeIcon
+                            icon="trash-alt"
+                            onClick={() => this.removeImagePreview(item.public_id)} />
+                    </ImageBoxOverlay>
                 </div>
             </ImageBox>
         ))
     }
 
+    removeImagePreview = async id => {
+        const response = await axios.get(`/api/users/removeimage?public_id=${id}`)
+        let images = this.state.uploadedFiles.filter(item => item.public_id !== id)
+        this.setState({
+            uploadedFiles: images
+        }, () => {
+            this.props.updateFormikState(images)
+        })
+    }
 
 
 
@@ -126,6 +164,7 @@ class FileUpload extends Component {
             <Fragment>
                 <DropzoneContainer>
                     <Dropzone
+                        activeStyle={{ border: '1px solid #f08f65' }}
                         style={{ width: '100%', height: '100%', margin: '0' }}
                         onDrop={this.onDrop}
                         multiple={false}

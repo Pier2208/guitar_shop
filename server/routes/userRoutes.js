@@ -32,9 +32,14 @@ router.get('/auth', authenticate, userController.authUser)
 router.get('/logout', authenticate, userController.logoutUser)
 
 //@ GET 'api/users/uploadimage'
-//@ Desc Upload an image
+//@ Desc Upload an image to Cloudinary
 //PRIVATE  & ADMIN route
 router.post('/uploadimage', authenticate, isAdmin, formidable(), userController.uploadImage)
+
+//@ GET 'api/users/removeimage'
+//@ Desc Remove an image from cloudinary
+//PRIVATE  & ADMIN route
+router.get('/removeimage', authenticate, isAdmin, userController.removeImage)
 
 
 module.exports = router
