@@ -1,6 +1,7 @@
 const { User } = require('../models/User')
 const cloudinary = require('cloudinary')
 
+
 module.exports = {
 
     registerUser: async (req, res) => {
@@ -100,9 +101,9 @@ module.exports = {
         })
     },
 
-    uploadImage: (req, res) => {
+    uploadImage: async (req, res) => {
 
-        cloudinary.uploader.upload(
+            cloudinary.uploader.upload(
             //path to the image uploaded
             req.files.file.path,
             //callback once image upload done

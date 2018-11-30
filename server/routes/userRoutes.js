@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const formidable = require('express-formidable')
 
 //controller
 const userController = require('../controllers/userController')
@@ -33,7 +34,7 @@ router.get('/logout', authenticate, userController.logoutUser)
 //@ GET 'api/users/uploadimage'
 //@ Desc Upload an image
 //PRIVATE  & ADMIN route
-router.post('/uploadimage', authenticate, isAdmin, userController.uploadImage)
+router.post('/uploadimage', authenticate, isAdmin, formidable(), userController.uploadImage)
 
 
 module.exports = router

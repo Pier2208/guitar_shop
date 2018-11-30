@@ -11,6 +11,8 @@ import axios from 'axios'
 export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) => async dispatch => {
 
     try {
+        console.log('called')
+    
         //http request --> register user endpoint
         const response = await axios.post('/api/users/register', formdata)
 
@@ -35,8 +37,7 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
     } catch (err) {
 
         //if response.status > 299 || response.statusText === "bad request"
-        console.log('err.response.status', err.response.status)
-        console.log('err.response.statusText', err.response.statusText)
+        console.log('error', err.response.data)
 
         //then dispatch action to errorReducer
         dispatch({

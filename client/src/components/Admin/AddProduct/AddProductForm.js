@@ -51,7 +51,6 @@ const ErrorMessage = styled.div`
 class AddProductForm extends Component {
 
     render() {
-
         return (
             <Formik
                 initialValues={{
@@ -63,7 +62,8 @@ class AddProductForm extends Component {
                     available: '',
                     wood: '',
                     frets: '',
-                    published: ''
+                    published: '',
+                    images: []
                 }}
                 validationSchema={
                     Yup.object().shape({
@@ -89,7 +89,7 @@ class AddProductForm extends Component {
                         published: Yup.boolean()
                     })
                 }
-                onSubmit={ async (values, {resetForm, setFieldError, setSubmitting}) => {
+                onSubmit={async (values, { resetForm, setFieldError, setSubmitting }) => {
                     await this.props.addProduct(values, resetForm, setFieldError, setSubmitting)
                     setTimeout(() => {
                         this.props.clearProduct()
@@ -104,14 +104,10 @@ class AddProductForm extends Component {
                         handleChange,
                         handleSubmit,
                         handleBlur,
-                        isSubmitting
+                        isSubmitting,
+                        setFieldValue
                     }) => (
                             <Form onSubmit={handleSubmit} noValidate>
-
-                                <Label>
-                                    <span>Product Images</span>
-                                </Label>
-                                <FileUpload />
 
                                 <div>
                                     <Label>
@@ -289,11 +285,20 @@ class AddProductForm extends Component {
                                     {touched.published && errors.published && <ErrorMessage>{errors.published}</ErrorMessage>}
                                 </div>
 
+                                <Label>
+                                    <span>Product Images</span>
+                                </Label>
+                                <FileUpload
+                                    reset={this.props.products}
+                                    updateFormikState={files => {
+                                        setFieldValue('images', files)
+                                    }} />
+
                                 <div>
-                                <SubmitButton 
-                                    type="submit"
-                                    disabled={isSubmitting}>Submit</SubmitButton>
-                            </div>
+                                    <SubmitButton
+                                        type="submit"
+                                        disabled={isSubmitting}>Submit</SubmitButton>
+                                </div>
                             </Form>
                         )
                 }

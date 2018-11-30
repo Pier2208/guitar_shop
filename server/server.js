@@ -2,7 +2,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const formidable = require('express-formidable')
 const cloudinary = require('cloudinary')
 
 require('dotenv').config()
@@ -21,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
-app.use(formidable())
+
 
 //cloudinary config
 cloudinary.config({
