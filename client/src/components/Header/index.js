@@ -1,9 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+//import withRouter to be able to use history from inside action creator
+import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import Logo from './Logo'
 import { LogButton } from '../../styles/Button'
+
+//import action creator
+import { logoutUser } from '../../actions/userActions'
+
 
 
 const StyledHeader = styled.header`
@@ -26,25 +32,52 @@ const Wrapper = styled.div`
 
 
 class Header extends Component {
+
+    handleLogout = () => {
+        this.props.logoutUser(this.props.history)
+    }
+ 
     render() {
+
         return (
             <StyledHeader>
                 <Container>
                     <Logo />
-                    <Wrapper>
-                        <Link to="/register">
-                            <LogButton>Register</LogButton>
-                        </Link>
-                    </Wrapper>
-                    <Wrapper>
-                        <Link to="/login">
-                            <LogButton>Login</LogButton>
-                        </Link>
-                    </Wrapper>
+                    {
+                        !this.props.user ?
+                            null
+                            :
+                            this.props.user.isAuth ?
+                                <Fragment>
+                                    <Wrapper>
+                                        <LogButton
+                                            onClick={() => this.handleLogout()}
+                                        >Logout
+                                        </LogButton>
+                                    </Wrapper>
+                                </Fragment>
+                                :
+                                <Fragment>
+                                    <Wrapper>
+                                        <Link to="/register">
+                                            <LogButton>Register</LogButton>
+                                        </Link>
+                                    </Wrapper>
+                                    <Wrapper>
+                                        <Link to="/login">
+                                            <LogButton>Login</LogButton>
+                                        </Link>
+                                    </Wrapper>
+                                </Fragment>
+                    }
                 </Container>
             </StyledHeader>
         )
     }
 }
+const mapStateToProps = state => ({
+    user: state.user.userInfo
+})
 
-export default Header
+
+export default connect(mapStateToProps, { logoutUser })(withRouter(Header))

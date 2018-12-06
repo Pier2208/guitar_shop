@@ -96,13 +96,13 @@ const DashboardLayout = props => {
     return (
         <Fragment>
             <StyledHeader>
-                <h1>Hello {props.user.firstname ? props.user.firstname : null}!</h1>
+                <h1>Hello {props.user && props.user.firstname ? props.user.firstname : null}!</h1>
             </StyledHeader>
             <Container>
                 <StyledMenu>
                     {renderLinks(links)}
                     {
-                        props.user.role === 'admin'
+                        props.user && props.user.role === 'admin'
                          ?
                             renderLinks(adminLinks)
                         : null

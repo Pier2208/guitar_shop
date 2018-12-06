@@ -81,7 +81,7 @@ module.exports = {
                     token: ''
                 }
             })
-            res.clearCookie('w_auth').status(200).json({ logoutSuccess: true })
+            res.clearCookie('w_auth').status(200).json(true)
 
         } catch (err) {
             res.status(400).json(err)

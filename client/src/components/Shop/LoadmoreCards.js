@@ -17,6 +17,8 @@ const Container = styled.div`
 `
 
 const LoadmoreCards = props => {
+
+  console.log('list', props.list)
   return (
     <Container>
       <CardBlockShop

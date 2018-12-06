@@ -52,7 +52,7 @@ export default (WrappedComponent, isPrivateRoute, isAdminRoute = null) => {
                 //if the user is authenticated
             } else {
                 //and the route is an admin route and the user is not admin
-                if (isAdminRoute && !user.isAdmin) {
+                if (isAdminRoute && user.role !== "admin") {
                     this.props.history.push('/user/dashboard')
                 } else {
                     //and the route is public

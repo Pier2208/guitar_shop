@@ -27,7 +27,7 @@ router.post('/login', validateBody(schemas.loginSchema), userController.loginUse
 router.get('/auth', authenticate, userController.authUser)
 
 //@ GET 'api/users/logout'
-//@ Desc Fetch current user
+//@ Desc Logout current user
 //PRIVATE route
 router.get('/logout', authenticate, userController.logoutUser)
 

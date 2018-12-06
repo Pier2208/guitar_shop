@@ -58,9 +58,10 @@ const CardActions = styled.div`
 
 class Card extends Component {
 
-  renderCardImage = (images) => {
+  renderCardImage = images => {
     if (images.length > 0) {
-      return images[0]
+      console.log('images',images)
+      return images[0].url
     } else {
       return '/images/image_not_available.png'
     }
@@ -68,6 +69,7 @@ class Card extends Component {
 
 
   render() {
+
     return (
       <StyledCard>
         <Fade>
@@ -82,7 +84,7 @@ class Card extends Component {
           <span>${this.props.price}</span>
         </CardContent>
         <CardActions>
-          <Link to={`/product/${this.props._id}`}>
+          <Link to={`/shop/product_detail/${this.props._id}`}>
             <ViewButton style={{marginRight: '2rem'}}>View Product</ViewButton>
           </Link>
           <AddToCartButton onClick={() => console.log(`${this.props.name} added to cart!`)}>

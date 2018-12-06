@@ -22,7 +22,7 @@ const StyledTitle = styled.div`
         text-align: center;
         color: ${props => props.theme.primaryColorDark};
         font-family: 'Permanent Marker';
-        font-size: 4rem
+        font-size: 4rem;
         margin: 1rem;
     }
 `
@@ -36,8 +36,6 @@ const CardContainer = styled.div`
 
 
 const CardBlock = props => {
-
-    console.log('cardblock', props)
 
     const renderCards = () => (
         props.list ?

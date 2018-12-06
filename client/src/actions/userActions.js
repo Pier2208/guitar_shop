@@ -3,6 +3,7 @@ import {
     SET_FORM_ERROR,
     CLEAR_ERROR,
     LOGIN_USER,
+    LOGOUT_USER,
     GET_CURRENT_USER
 } from "./types";
 import axios from 'axios'
@@ -12,7 +13,7 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
 
     try {
         console.log('called')
-    
+
         //http request --> register user endpoint
         const response = await axios.post('/api/users/register', formdata)
 
@@ -54,7 +55,7 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
 }
 
 
-export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => async dispatch => {
+export const loginUser = (formdata, resetForm, setSubmitting, setFieldError, history) => async dispatch => {
 
     try {
         //http request to login user endpoint
@@ -74,6 +75,9 @@ export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => 
         //then reset form fields
         resetForm()
 
+        //redirect
+        history.push('/user/dashboard')
+
     } catch (err) {
         //if err.response.status > 299 or err.response.statusText==='Bad request'
         dispatch({
@@ -90,6 +94,24 @@ export const loginUser = (formdata, resetForm, setSubmitting, setFieldError) => 
     }
 }
 
+export const logoutUser = history => async dispatch => {
+
+    try {
+        const response = await axios.get('/api/users/logout')
+
+        dispatch({
+            type: LOGOUT_USER,
+            payload: response.data
+        })
+
+        history.push('/')
+
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export const getCurrentUser = () => async dispatch => {
 
@@ -98,11 +120,13 @@ export const getCurrentUser = () => async dispatch => {
         const response = await axios.get('/api/users/auth')
 
         //if response.status===200 || response.statusText==='OK'
-        dispatch({
-            type: GET_CURRENT_USER,
-            payload: response.data
-        })
-    
+        if(response) {
+            dispatch({
+                type: GET_CURRENT_USER,
+                payload: response.data
+            })
+        }
+
     } catch (err) {
         //if response.status===401 (unauthorized)
         dispatch({

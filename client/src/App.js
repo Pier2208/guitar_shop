@@ -14,6 +14,7 @@ import Layout from './components/UI/HOC/Layout'
 import Login from './components/Login'
 import Register from './components/Register'
 import Shop from './components/Shop'
+import ProductDetail from './components/ProductDetail'
 
 //components (private)
 import Dashboard from './components/Dashboard'
@@ -63,8 +64,9 @@ const App = () => {
                     {/* from most to less specific  */}
                     {/* HOC withAuth: a fn that returns a customized class  */}
                     <Route exact path="/user/dashboard" component={withAuth(Dashboard, true)} />
-                    <Route exact path="/add_product" component={withAuth(AddProduct, true)} />
+                    <Route exact path="/add_product" component={withAuth(AddProduct, true, true)} />
 
+                    <Route exact path="/shop/product_detail/:id" component={withAuth(ProductDetail, null)} />
                     <Route exact path="/shop" component={withAuth(Shop, null)} />
                     <Route exact path="/register" component={withAuth(Register, false)} />
                     <Route exact path="/login" component={withAuth(Login, false)} />

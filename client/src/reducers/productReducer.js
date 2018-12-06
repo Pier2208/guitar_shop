@@ -4,6 +4,8 @@ import {
     GET_FILTERED_PRODUCTS,
     GET_PRODUCTS_BY_ARRIVAL,
     GET_PRODUCTS_BY_SELL,
+    GET_PRODUCT_DETAIL,
+    CLEAR_PRODUCT_DETAIL,
     ADD_PRODUCT,
     CLEAR_PRODUCT
 } from '../actions/types'
@@ -38,6 +40,16 @@ export default (state=INITIAL_STATE, action) => {
             return {
                 ...state,
                 productsByArrival: action.payload
+            }
+        case GET_PRODUCT_DETAIL:
+            return {
+                ...state,
+                productDetail: action.payload
+            }
+        case CLEAR_PRODUCT_DETAIL:
+            return {
+                ...state,
+                productDetail: {}
             }
         case ADD_PRODUCT:
             return {

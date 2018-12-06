@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import { withRouter } from 'react-router-dom'
+
 //Formik and validation library
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -53,7 +55,7 @@ class LoginForm extends Component {
                     })
                 }
                 onSubmit={(values, { resetForm, setSubmitting, setFieldError } )=> {
-                    this.props.loginUser(values, resetForm, setSubmitting, setFieldError)
+                    this.props.loginUser(values, resetForm, setSubmitting, setFieldError, this.props.history)
                 }}
             >
 
@@ -106,4 +108,4 @@ class LoginForm extends Component {
     }
 }
 
-export default connect(null, { loginUser })(LoginForm)
+export default connect(null, { loginUser })(withRouter(LoginForm))

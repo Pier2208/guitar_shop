@@ -113,7 +113,6 @@ module.exports = {
             if (type === 'array') {
                 ids = req.query.id.split(',').map(id => mongoose.Types.ObjectId(id))
             }
-            console.log('after', typeof ids)
 
             //fetch the products whose ID is $in our array of ids
             const products = await Product.find({ _id: { $in: ids } })

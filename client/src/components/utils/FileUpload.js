@@ -115,7 +115,7 @@ class FileUpload extends Component {
         formData.append('file', files[0])
         //POST request
         const response = await axios.post('/api/users/uploadimage', formData, config)
-        console.log('response', response)
+
         this.setState({
             uploadedFiles: [
                 ...this.state.uploadedFiles,
@@ -123,9 +123,10 @@ class FileUpload extends Component {
             ]
         }, () => {
             let images = this.state.uploadedFiles.reduce((accumulator, currentValue) => {
-                accumulator.push(currentValue.url)
+                accumulator.push(currentValue)
                 return accumulator
             }, [])
+            console.log('images2', images)
             this.props.updateFormikState(images)
         })
     }
@@ -148,7 +149,7 @@ class FileUpload extends Component {
     }
 
     removeImagePreview = async id => {
-        const response = await axios.get(`/api/users/removeimage?public_id=${id}`)
+        await axios.get(`/api/users/removeimage?public_id=${id}`)
         let images = this.state.uploadedFiles.filter(item => item.public_id !== id)
         this.setState({
             uploadedFiles: images

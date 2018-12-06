@@ -1,11 +1,19 @@
-import { REGISTER_USER, 
-         LOGIN_USER,
-         GET_CURRENT_USER } from '../actions/types'
+import {
+    REGISTER_USER,
+    LOGIN_USER,
+    LOGOUT_USER,
+    GET_CURRENT_USER
+} from '../actions/types'
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {
+    userInfo: null,
+    registerSuccess: '',
+    loginSuccess: '',
+    logoutSuccess: ''
+}
 
-export default (state=INITIAL_STATE, action) => {
-    switch(action.type) {
+export default (state = INITIAL_STATE, action) => {
+    switch (action.type) {
         case REGISTER_USER:
             return {
                 ...state,
@@ -16,7 +24,14 @@ export default (state=INITIAL_STATE, action) => {
                 ...state,
                 loginSuccess: action.payload
             }
-        case GET_CURRENT_USER: 
+        case LOGOUT_USER:
+            return {
+                userInfo: null,
+                registerSuccess: '',
+                loginSuccess: '',
+                logoutSuccess: action.payload
+            }
+        case GET_CURRENT_USER:
             return {
                 ...state,
                 userInfo: action.payload

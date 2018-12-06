@@ -6,6 +6,8 @@ import {
     GET_PRODUCTS_BY_ARRIVAL,
     GET_PRODUCTS_BY_SELL,
     ADD_PRODUCT,
+    GET_PRODUCT_DETAIL,
+    CLEAR_PRODUCT_DETAIL,
     CLEAR_ERROR,
     SET_FORM_ERROR,
     CLEAR_PRODUCT
@@ -157,3 +159,29 @@ export const addProduct = (formdata, resetForm, setFieldError, setSubmitting) =>
 export const clearProduct = () => ({
     type: CLEAR_PRODUCT
 })
+
+
+export const getProductDetail = id => async dispatch => {
+
+    try {
+        //http request to 'api/products/search?id=AAABBBCCC,SSSFFFTTT&type=array/single'
+        const response = await axios.get(`/api/products/search_by_id?id=${id}&type=single`)
+
+        //if response.status === 200
+        dispatch({
+            type: GET_PRODUCT_DETAIL,
+            payload: response.data[0]
+        })
+
+    } catch (err) {
+        //if response.status > 299
+        throw err
+    }
+}
+
+
+export const clearProductDetail = () => {
+    return {
+        type: CLEAR_PRODUCT_DETAIL
+    }
+}
