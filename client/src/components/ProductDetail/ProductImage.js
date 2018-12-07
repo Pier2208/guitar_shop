@@ -60,6 +60,14 @@ class ProductImage extends Component {
         currentImage: 0
     }
 
+    static getDerivedStateFromProps (props, state) {
+        if(props.product && props.product.images) {
+            return state = {
+                lightBoxImages: props.product.images
+            }
+        }
+        return null
+    }
 
     componentDidMount() {
         if (this.props.product) {
@@ -110,15 +118,13 @@ class ProductImage extends Component {
 
     render() {
 
-        const { product } = this.props
-
         return (
             <Container>
                 <ImageContainer>
                     <Image
                         onClick={() => this.openLightBox(0)}
                         style={{
-                            background: `url(${this.renderMainImage(product.images)})`
+                            background: `url(${this.renderMainImage(this.state.lightBoxImages)})`
                         }} />
                 </ImageContainer>
                 <ImageContainer>
@@ -130,7 +136,7 @@ class ProductImage extends Component {
                 {
                     this.state.lightbox ?
                         <ImageLightBox
-                            id={product.id}
+                            id={this.props.product.id}
                             images={this.state.lightBoxImages}
                             open={this.state.isLightboxOpen}
                             pos={this.state.currentImage}

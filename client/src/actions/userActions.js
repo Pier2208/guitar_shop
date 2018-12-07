@@ -4,7 +4,8 @@ import {
     CLEAR_ERROR,
     LOGIN_USER,
     LOGOUT_USER,
-    GET_CURRENT_USER
+    GET_CURRENT_USER,
+    ADD_TO_CART
 } from "./types";
 import axios from 'axios'
 
@@ -18,8 +19,8 @@ export const registerUser = (formdata, resetForm, setFieldError, setSubmitting) 
         const response = await axios.post('/api/users/register', formdata)
 
         //if response.status === 200 || response.statusText === "OK"
-        console.log('response.statusText', response.statusText)
-        console.log('response.status', response.status)
+        //console.log('response.statusText', response.statusText)
+        //console.log('response.status', response.status)
 
         //then dispatch to userReducer
         dispatch({
@@ -133,5 +134,21 @@ export const getCurrentUser = () => async dispatch => {
             type: GET_CURRENT_USER,
             payload: err.response.data
         })
+    }
+}
+
+export const addToCart = id => async dispatch => {
+
+    try {
+        //http request to '/api/users/addtocart?productId="uiyhftg"
+        const response = await axios.post(`/api/users/addtocart?productId=${id}`)
+
+        dispatch({
+            type: ADD_TO_CART,
+            payload: response.data
+        })
+
+    } catch(err) {
+        throw err
     }
 }

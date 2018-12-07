@@ -41,5 +41,9 @@ router.post('/uploadimage', authenticate, isAdmin, formidable(), userController.
 //PRIVATE  & ADMIN route
 router.get('/removeimage', authenticate, isAdmin, userController.removeImage)
 
+//@ POST 'api/users/addtocart'
+//@ Desc Add a product to cart
+//PRIVATE route
+router.post('/addtocart', authenticate, userController.addToCart)
 
 module.exports = router

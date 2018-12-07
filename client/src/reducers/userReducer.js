@@ -2,7 +2,8 @@ import {
     REGISTER_USER,
     LOGIN_USER,
     LOGOUT_USER,
-    GET_CURRENT_USER
+    GET_CURRENT_USER,
+    ADD_TO_CART
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -35,6 +36,14 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userInfo: action.payload
+            }   
+        case ADD_TO_CART:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    cart: action.payload
+                }
             }
         default:
             return state

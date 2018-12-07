@@ -1,6 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { connect } from 'react-redux'
+
+//import action creator
+import { addToCart } from '../../actions/userActions'
 
 
 const Container = styled.div`
@@ -70,7 +74,7 @@ const ActionBox = styled.div`
 `
 
 
-const ProductInfo = ({ product }) => {
+const ProductInfo = ({ product, addToCart }) => {
 
     const showProductTags = ({ shipping, available }) => (
         <Tags>
@@ -167,7 +171,7 @@ const ProductInfo = ({ product }) => {
             {showProductPrice(product)}
             {showProductTags(product)}
             <AddToCart
-                onClick={() => console.log('added to cart')}
+                onClick={() => addToCart(product._id)}
             >
                 <Icon>
                     <FontAwesomeIcon icon="cart-plus" />
@@ -180,5 +184,5 @@ const ProductInfo = ({ product }) => {
 }
 
 
-export default ProductInfo
+export default connect(null, { addToCart })(ProductInfo)
 

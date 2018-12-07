@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -8,6 +9,9 @@ import { ViewButton, AddToCartButton } from '../../styles/Button'
 
 //react reveal
 import Fade from 'react-reveal/Fade';
+
+//import action creator
+import { addToCart } from '../../actions/userActions'
 
 //styled components
 const StyledCard = styled.div`
@@ -87,7 +91,9 @@ class Card extends Component {
           <Link to={`/shop/product_detail/${this.props._id}`}>
             <ViewButton style={{marginRight: '2rem'}}>View Product</ViewButton>
           </Link>
-          <AddToCartButton onClick={() => console.log(`${this.props.name} added to cart!`)}>
+          <AddToCartButton onClick={() => {
+            this.props.user && this.props.user.isAuth ? this.props.addToCart(this.props._id) : console.log('You need to login')
+          }}>
             <FontAwesomeIcon icon="shopping-bag" />
           </AddToCartButton>
         </CardActions>
@@ -97,4 +103,8 @@ class Card extends Component {
   }
 }
 
-export default Card
+const mapStateToProps = state => ({
+  user: state.user.userInfo
+})
+
+export default connect(mapStateToProps, { addToCart })(Card)

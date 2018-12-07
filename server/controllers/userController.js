@@ -1,5 +1,6 @@
 const { User } = require('../models/User')
 const cloudinary = require('cloudinary')
+const mongoose = require('mongoose')
 
 
 module.exports = {
@@ -103,7 +104,7 @@ module.exports = {
 
     uploadImage: (req, res) => {
 
-            cloudinary.uploader.upload(
+        cloudinary.uploader.upload(
             //path to the image uploaded
             req.files.file.path,
             //callback once image upload done
@@ -129,10 +130,59 @@ module.exports = {
 
         //tells Couldinary to delete the image
         cloudinary.uploader.destroy(image_id, (response) => {
-            if(response.result != 'ok') {
-                return res.status(500).json({msg: 'Something went wrong', repsonse})
+            if (response.result != 'ok') {
+                return res.status(500).json({ msg: 'Something went wrong', response })
             }
             return res.status(200).json(response)
         })
+    },
+
+    addToCart: async (req, res) => {
+
+        try {
+
+            //retrieve the user by his id in req.user
+            let user = await User.findOne({ _id: req.user._id })
+
+            //check if the id from the query string exists in this user cart, convert the ObjectId into a string
+            //could also use ==
+            let duplicate = user.cart.some(item => item._id.toString() === req.query.productId)
+
+            if (duplicate) {
+                //if duplicate exists, add 1 to quantity
+                user = await User.findOneAndUpdate(
+                    //don't forget to import mongoose
+                    { _id: req.user._id, "cart._id": mongoose.Types.ObjectId(req.query.productId) },
+                    {
+                        $inc: {
+                            "cart.$.quantity": 1
+                        }
+                    }, {new: true}
+                )
+
+                return res.status(200).json(user.cart)
+
+            } else {
+
+                user = await User.findOneAndUpdate(
+                    { _id: req.user._id },
+                    {
+                        $push: {
+                            cart: {
+                                _id: mongoose.Types.ObjectId(req.query.productId),
+                                quantity: 1,
+                                date: Date.now()
+                            }
+                        }
+                    }, { new: true }
+                )
+
+                return res.status(200).json(user.cart)
+            }
+
+        } catch (err) {
+
+            return res.status(400).json({ sucess: false, err })
+        }
     }
 }

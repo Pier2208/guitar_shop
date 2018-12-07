@@ -10,7 +10,14 @@ import {
     CLEAR_PRODUCT
 } from '../actions/types'
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {
+    brands: [],
+    woods: [],
+    filteredProducts: [],
+    productDetail: {
+        images: []
+    }
+}
 
 
 export default (state=INITIAL_STATE, action) => {
