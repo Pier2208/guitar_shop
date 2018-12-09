@@ -19,6 +19,11 @@ const StyledCard = styled.div`
     height: 43rem;
     margin: 2rem;
     border: 2px solid ${props => props.theme.fontColorLight};
+
+    &:hover {
+      border: none;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    }
 `
 
 const CardImage = styled.div`
@@ -64,7 +69,7 @@ class Card extends Component {
 
   renderCardImage = images => {
     if (images.length > 0) {
-      console.log('images',images)
+      console.log('images', images)
       return images[0].url
     } else {
       return '/images/image_not_available.png'
@@ -77,26 +82,28 @@ class Card extends Component {
     return (
       <StyledCard>
         <Fade>
-        <CardImage
-          style={{
-            background: `url(${this.renderCardImage(this.props.images)}) no-repeat`,
-          }}
-        />
-        <CardContent>
-          <h4>{this.props.brand.name}</h4>
-          <span>{this.props.name}</span>
-          <span>${this.props.price}</span>
-        </CardContent>
-        <CardActions>
           <Link to={`/shop/product_detail/${this.props._id}`}>
-            <ViewButton style={{marginRight: '2rem'}}>View Product</ViewButton>
+            <CardImage
+              style={{
+                background: `url(${this.renderCardImage(this.props.images)}) no-repeat`,
+              }}
+            />
           </Link>
-          <AddToCartButton onClick={() => {
-            this.props.user && this.props.user.isAuth ? this.props.addToCart(this.props._id) : console.log('You need to login')
-          }}>
-            <FontAwesomeIcon icon="shopping-bag" />
-          </AddToCartButton>
-        </CardActions>
+          <CardContent>
+            <h4>{this.props.brand.name}</h4>
+            <span>{this.props.name}</span>
+            <span>${this.props.price}</span>
+          </CardContent>
+          <CardActions>
+            <Link to={`/shop/product_detail/${this.props._id}`}>
+              <ViewButton style={{ marginRight: '2rem' }}>View Product</ViewButton>
+            </Link>
+            <AddToCartButton onClick={() => {
+              this.props.user && this.props.user.isAuth ? this.props.addToCart(this.props._id) : console.log('You need to login')
+            }}>
+              <FontAwesomeIcon icon="shopping-bag" />
+            </AddToCartButton>
+          </CardActions>
         </Fade>
       </StyledCard>
     )

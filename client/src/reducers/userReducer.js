@@ -3,7 +3,8 @@ import {
     LOGIN_USER,
     LOGOUT_USER,
     GET_CURRENT_USER,
-    ADD_TO_CART
+    ADD_TO_CART,
+    GET_CART_ITEMS
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -43,6 +44,14 @@ export default (state = INITIAL_STATE, action) => {
                 userInfo: {
                     ...state.userInfo,
                     cart: action.payload
+                }
+            }
+        case GET_CART_ITEMS:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    cartSummary: action.payload
                 }
             }
         default:

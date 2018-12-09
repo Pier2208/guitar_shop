@@ -5,18 +5,17 @@ import styled from 'styled-components'
 import ImageLightBox from '../utils/ImageLightBox'
 
 
+//styled components
 const Container = styled.div`
     flex-basis: 40%;
     height: 100vh;
 `
-
 const ImageContainer = styled.div`
     display: flex;
     justify-content: center;
     width: 95%;
     height: auto;
 `
-
 const Image = styled.div`
     display: block;
     width: 85%;
@@ -29,14 +28,13 @@ const Image = styled.div`
         cursor: pointer;
     }
 `
-
 const ThumbnailsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 85%;
     justify-content: flex-start;
+    margin-top: 1rem;
 `
-
 const Thumbnail = styled.div`
     width: 10rem;
     height: 10rem;

@@ -71,7 +71,7 @@ export default (WrappedComponent, isPrivateRoute, isAdminRoute = null) => {
                 return (
                     <LoaderContainer>
                         <CircularProgress
-                            style={{ color: '#EF8354' }}
+                            style={{ color: 'white' }}
                             thickness={5}
                         />
                     </LoaderContainer>

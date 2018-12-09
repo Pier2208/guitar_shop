@@ -10,7 +10,6 @@ import { LogButton } from '../../styles/Button'
 
 //import action creator
 import { logoutUser } from '../../actions/userActions'
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 
 

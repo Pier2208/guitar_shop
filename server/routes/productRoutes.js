@@ -41,7 +41,7 @@ router.get('/woods', productController.fetchWoods)
 router.post('/new_product', authenticate, validateBody(schemas.productSchema), productController.addProduct)
 
 
-//@ GET 'api/products/search?id=AAABBBCCC,SSSFFFTTT&type=array/single
+//@ GET 'api/products/search_by_id?id=AAABBBCCC,SSSFFFTTT&type=array/single
 //@ Desc Get one or several product(s) by ID
 //@ PUBLIC route
 router.get('/search_by_id', productController.searchById)

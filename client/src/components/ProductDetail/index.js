@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+
 import styled from 'styled-components'
 
-//import action creator
+//action creators
 import { getProductDetail, clearProductDetail } from '../../actions/productActions'
 
 //import components
@@ -10,21 +11,12 @@ import PageTop from '../utils/PageTop'
 import ProductInfo from './ProductInfo'
 import ProductImage from './ProductImage'
 
-//import CircularProgress from Material-UI
-import { CircularProgress } from '@material-ui/core'
 
 //styled components
 const ProductPageContainer = styled.section`
     display: flex;
     height: 100vh;
     margin-top: 2rem;
-`
-
-const LoadingContainer = styled.div`
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     height: 100vh;
 `
 
 
@@ -47,23 +39,13 @@ class ProductDetail extends Component {
         return (
             <Fragment>
                 <PageTop title="Product Detail" />
-                {
-                      this.props.products && this.props.products.productDetail ?
-                        <ProductPageContainer>
-                            <ProductImage
-                                product={this.props.products.productDetail} />
-                            <ProductInfo
-                                product={this.props.products.productDetail}
-                            />
-                        </ProductPageContainer>
-                        :
-                        <LoadingContainer>
-                            <CircularProgress
-                                style={{ color: '#EF8354' }}
-                                thickness={5}
-                            />
-                        </LoadingContainer>   
-                }
+                <ProductPageContainer>
+                    <ProductImage
+                        product={this.props.products.productDetail} />
+                    <ProductInfo
+                        product={this.props.products.productDetail}
+                    />
+                </ProductPageContainer>
             </Fragment>
         )
     }

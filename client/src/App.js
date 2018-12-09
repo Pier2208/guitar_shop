@@ -19,6 +19,7 @@ import ProductDetail from './components/ProductDetail'
 //components (private)
 import Dashboard from './components/Dashboard'
 import AddProduct from './components/Admin/AddProduct'
+import Cart from './components/Cart'
 
 
 //withAuth HOC
@@ -64,6 +65,7 @@ const App = () => {
                     {/* from most to less specific  */}
                     {/* HOC withAuth: a fn that returns a customized class  */}
                     <Route exact path="/user/dashboard" component={withAuth(Dashboard, true)} />
+                    <Route exact path="/user/cart" component={withAuth(Cart, true)} />
                     <Route exact path="/add_product" component={withAuth(AddProduct, true, true)} />
 
                     <Route exact path="/shop/product_detail/:id" component={withAuth(ProductDetail, null)} />

@@ -5,7 +5,8 @@ import {
     LOGIN_USER,
     LOGOUT_USER,
     GET_CURRENT_USER,
-    ADD_TO_CART
+    ADD_TO_CART,
+    GET_CART_ITEMS
 } from "./types";
 import axios from 'axios'
 
@@ -121,7 +122,7 @@ export const getCurrentUser = () => async dispatch => {
         const response = await axios.get('/api/users/auth')
 
         //if response.status===200 || response.statusText==='OK'
-        if(response) {
+        if (response) {
             dispatch({
                 type: GET_CURRENT_USER,
                 payload: response.data
@@ -148,7 +149,32 @@ export const addToCart = id => async dispatch => {
             payload: response.data
         })
 
-    } catch(err) {
+    } catch (err) {
+        throw err
+    }
+}
+
+export const getCartItems = (productIds, quantity) => async dispatch => {
+
+    try {
+        //http request to 'api/products/search_by_id?id=AAABBBCCC,SSSFFFTTT&type=array/single
+        let response = await axios.get(`/api/products/search_by_id?id=${productIds}&type=array`)
+        let data = response.data
+        //add quantity field to response.data
+        quantity.forEach(item => data.forEach((itemChild, index) => {
+            if(item._id === itemChild._id) {
+                data[index].quantity = item.quantity
+            }
+        })
+        )
+
+        dispatch({
+            type: GET_CART_ITEMS,
+            payload: data
+        })
+
+    } catch (err) {
+
         throw err
     }
 }

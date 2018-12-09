@@ -1,12 +1,14 @@
 import React from 'react'
-import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { connect } from 'react-redux'
 
-//import action creator
+import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+//action creator
 import { addToCart } from '../../actions/userActions'
 
 
+//styled components
 const Container = styled.div`
     flex: 1;
     height: 100vh;
@@ -33,7 +35,6 @@ const Icon = styled.div`
     font-size: 2.5rem;
     color: ${props => props.theme.primaryColorDark};
     margin-right: 2rem;
-
 `
 
 const TagPrice = styled.div`
@@ -70,115 +71,133 @@ const AddToCart = styled.div`
     }
 `
 
-const ActionBox = styled.div`
-`
-
 
 const ProductInfo = ({ product, addToCart }) => {
 
-    const showProductTags = ({ shipping, available }) => (
-        <Tags>
-            <Tag>
-                <Icon>
-                    <FontAwesomeIcon icon="truck" />
-                </Icon>
-                {
-                    shipping ?
-                        <IconText>
-                            <div>Free Shipping</div>
-                            <div>And Return</div>
-                        </IconText>
-                        :
-                        <IconText>
-                            <div>Shipping not available for this product</div>
-                        </IconText>
-                }
-            </Tag>
+    const showProductTags = ({ shipping, available }) => {
 
-            <Tag>
-                <Icon>
+        if (shipping === undefined || available === undefined)
+            return null
+
+        return (
+            <Tags>
+                <Tag>
+                    <Icon>
+                        <FontAwesomeIcon icon="truck" />
+                    </Icon>
+                    {
+                        shipping ?
+                            <IconText>
+                                <div>Free Shipping</div>
+                                <div>And Return</div>
+                            </IconText>
+                            :
+                            <IconText>
+                                <div>Shipping not available for this product</div>
+                            </IconText>
+                    }
+                </Tag>
+
+                <Tag>
+                    <Icon>
+                        {
+                            available ?
+                                <FontAwesomeIcon icon="check" style={{ color: 'green' }} />
+                                :
+                                <FontAwesomeIcon icon="times" style={{ color: 'red' }} />
+                        }
+
+                    </Icon>
                     {
                         available ?
-                            <FontAwesomeIcon icon="check" style={{ color: 'green' }} />
+                            <IconText>
+                                <div>Available</div>
+                                <div>In Stock</div>
+                            </IconText>
                             :
-                            <FontAwesomeIcon icon="times" style={{ color: 'red' }} />
+                            <IconText>
+                                <div>Product currently not available</div>
+                            </IconText>
                     }
+                </Tag>
+            </Tags>
+        )
+    }
 
-                </Icon>
-                {
-                    available ?
-                        <IconText>
-                            <div>Available</div>
-                            <div>In Stock</div>
-                        </IconText>
-                        :
-                        <IconText>
-                            <div>Product currently not available</div>
-                        </IconText>
-                }
-            </Tag>
-        </Tags>
-    )
+    const showProductPrice = ({ price }) => {
 
-    const showProductPrice = ({ price }) => (
-        <Tags>
-            <TagPrice>
-                <Icon>
-                    <FontAwesomeIcon icon="dollar-sign" />
-                </Icon>
-                <IconText>
+        if (price === undefined)
+            return null
+
+        return (
+            <Tags>
+                <TagPrice>
+                    <Icon>
+                        <FontAwesomeIcon icon="dollar-sign" />
+                    </Icon>
+                    <IconText>
+                        {
+                            price ?
+                                <h3>{price.toFixed(2)}</h3>
+                                : null
+                        }
+                    </IconText>
+                </TagPrice>
+            </Tags>
+        )
+    }
+
+    const showProductDesc = ({ description }) => {
+
+        if (description === undefined)
+            return null
+
+        return (
+            <Tags>
+                <Tag style={{ alignItems: 'flex-start' }}>
+                    <Icon>
+                        <FontAwesomeIcon icon="info" />
+                    </Icon>
                     {
-                        price ?
-                            <h3>{price.toFixed(2)}</h3>
-                            : null
+                        description ?
+                            <IconText>
+                                <div>{description}</div>
+                            </IconText>
+                            :
+                            <IconText>
+                                <div>No info available</div>
+                            </IconText>
                     }
-                </IconText>
-            </TagPrice>
-        </Tags>
-    )
+                </Tag>
+            </Tags>
+        )
+    }
 
-    const showProductDesc = ({ description }) => (
-        <Tags>
-            <Tag style={{ alignItems: 'flex-start' }}>
-                <Icon>
-                    <FontAwesomeIcon icon="info" />
-                </Icon>
-                {
-                    description ?
-                        <IconText>
-                            <div>{description}</div>
-                        </IconText>
-                        :
-                        <IconText>
-                            <div>No info available</div>
-                        </IconText>
-                }
-            </Tag>
-
-        </Tags>
-
-    )
-
-    const showProductSpecs = ({ wood, frets }) => (
-        <div>
-        </div>
-    )
 
     return (
         <Container>
-            <StyledTitle>{product.name}</StyledTitle>
+            {
+                product.name === undefined ?
+                    null
+                    :
+                    <StyledTitle>{product.name}</StyledTitle>
+            }
             {showProductDesc(product)}
             {showProductPrice(product)}
             {showProductTags(product)}
-            <AddToCart
-                onClick={() => addToCart(product._id)}
-            >
-                <Icon>
-                    <FontAwesomeIcon icon="cart-plus" />
-                </Icon>
-                Add To Cart
+            {
+                product.price === undefined ?
+                    null
+                    :
+                    <AddToCart
+                        onClick={() => addToCart(product._id)}
+                    >
+                        <Icon>
+                            <FontAwesomeIcon icon="cart-plus" />
+                        </Icon>
+                        Add To Cart
             </AddToCart>
-            {showProductSpecs(product)}
+            }
         </Container>
     )
 }
