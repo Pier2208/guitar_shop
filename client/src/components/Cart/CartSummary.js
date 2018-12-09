@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Link } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 //fixed menu
@@ -9,6 +11,7 @@ const TableMenu = ["Image", "Name", "Quantity", "Price"]
 
 //styled components
 const TableRow = styled.div`
+    position: relative;
     display: flex;
     width: 100%;
     height: auto;
@@ -23,17 +26,29 @@ const TableCell = styled.div`
     align-items: center;
     width: 100%;
     border-right: 1px solid white;
-    padding: .5rem 0;
+    padding: .3rem 0;
     flex: ${({ name }) => name === "Image" || name === "Quantity" ? '15%' : name === "Name" ? '40%' : '25%'};
     color: ${({ theme }) => theme.primaryColorDark};
     text-transform: uppercase;
-    font-weight: ${({ name }) => name === "Name" && 'bold'};
+    font-weight: ${({ name }) => name === "Name" || name === 'Quantity' && 'bold'};
 
     div {
         width: 8rem;
         height: 8rem;
         background-position: center !important;
         background-size: cover !important;
+    }
+
+    span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 2rem;
+        background-color: ${({ theme }) => theme.primaryColorDark};
+        color: white;
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
     }
 
     h4 {
@@ -63,8 +78,42 @@ const LoaderContainer = styled.div`
     align-items: center;
 `
 
+const Overlay = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.03);
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+
+    &:hover,
+    &:active {
+        opacity: 1;
+    }
+
+    svg {
+        color: ${({ theme }) => theme.primaryColorLight};
+        position: absolute;
+        transition: color .2s ease-in-out;
+        cursor: pointer;
+
+        &:hover,
+        &:active {
+            color: ${({ theme }) => theme.accentColor};
+        }
+    }
+    
+`
+
 
 const CartSummary = ({ products }) => {
+
+    const removeItem = id => {
+        console.log(`Removed item ${id}`)
+    }
+
 
     if (!products.cartSummary) {
         return (
@@ -92,13 +141,40 @@ const CartSummary = ({ products }) => {
 
                 {
                     products.cartSummary ?
-                        products.cartSummary.map((product, i) =>
-                            <TableRow key={i}>
+                        products.cartSummary.map(product =>
+                            <TableRow key={product._id}>
+                                <Overlay>
+                                    <FontAwesomeIcon
+                                        style={{ bottom: '1rem', right: '1.2rem' }}
+                                        onClick={() => removeItem(product._id)}
+                                        icon="trash-alt"
+                                    />
+                                    <Link to={`/shop/product_detail/${product._id}`}>
+                                        <FontAwesomeIcon
+                                            style={{ bottom: '3.5rem', right: '1rem' }}
+                                            icon="eye"
+                                        />
+                                    </Link>
+                                </Overlay>
                                 <TableCell name="Image">
                                     <div style={{ background: `url(${product.images[0].url}) no-repeat` }} />
                                 </TableCell>
                                 <TableCell name="Name">{product.name}</TableCell>
-                                <TableCell name="Quantity">{product.quantity}</TableCell>
+                                <TableCell
+                                    style={{ display: 'flex', justifyContent: 'center' }}
+                                    name="Quantity">
+                                    <FontAwesomeIcon
+                                        style={{ fontSize: '1.3rem' }}
+                                        icon="minus"
+                                    />
+                                    <span>
+                                        {product.quantity}
+                                    </span>
+                                    <FontAwesomeIcon
+                                        style={{ fontSize: '1.3rem' }}
+                                        icon="plus"
+                                    />
+                                </TableCell>
                                 <TableCell name="Price">$ {product.price.toFixed(2)}</TableCell>
                             </TableRow>
                         )
@@ -106,8 +182,6 @@ const CartSummary = ({ products }) => {
                         <EmptyCart><h3>You have no items in your shopping cart</h3></EmptyCart>
                 }
             </React.Fragment>
-
-
         )
     }
 }
