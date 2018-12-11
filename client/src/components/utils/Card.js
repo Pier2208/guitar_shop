@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { ViewButton, AddToCartButton } from '../../styles/Button'
+import CustomTooltip from './CustomTooltip'
 
 //react reveal
 import Fade from 'react-reveal/Fade';
@@ -20,10 +21,10 @@ const StyledCard = styled.div`
     margin: 2rem;
     border: 2px solid ${props => props.theme.fontColorLight};
 
-    &:hover {
+    /* &:hover {
       border: none;
       box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
-    }
+    } */
 `
 
 const CardImage = styled.div`
@@ -101,7 +102,9 @@ class Card extends Component {
             <AddToCartButton onClick={() => {
               this.props.user && this.props.user.isAuth ? this.props.addToCart(this.props._id) : console.log('You need to login')
             }}>
-              <FontAwesomeIcon icon="shopping-bag" />
+              <CustomTooltip title="add to cart" variant="dark">
+                <FontAwesomeIcon icon="shopping-bag" />
+              </CustomTooltip>
             </AddToCartButton>
           </CardActions>
         </Fade>

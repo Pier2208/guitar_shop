@@ -3,11 +3,13 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
+import CustomTooltip from '../utils/CustomTooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 //fixed menu
 const TableMenu = ["Image", "Name", "Quantity", "Price"]
+
 
 //styled components
 const TableRow = styled.div`
@@ -104,7 +106,6 @@ const Overlay = styled.div`
             color: ${({ theme }) => theme.accentColor};
         }
     }
-    
 `
 
 
@@ -144,17 +145,23 @@ const CartSummary = ({ products }) => {
                         products.cartSummary.map(product =>
                             <TableRow key={product._id}>
                                 <Overlay>
-                                    <FontAwesomeIcon
-                                        style={{ bottom: '1rem', right: '1.2rem' }}
-                                        onClick={() => removeItem(product._id)}
-                                        icon="trash-alt"
-                                    />
-                                    <Link to={`/shop/product_detail/${product._id}`}>
+                                    <CustomTooltip title="remove" variant="light">
                                         <FontAwesomeIcon
-                                            style={{ bottom: '3.5rem', right: '1rem' }}
-                                            icon="eye"
+                                            style={{ bottom: '1rem', right: '1.2rem' }}
+                                            onClick={() => removeItem(product._id)}
+                                            icon="trash-alt"
                                         />
+                                    </CustomTooltip>
+
+                                    <Link to={`/shop/product_detail/${product._id}`}>
+                                        <CustomTooltip title="view" variant="light">
+                                            <FontAwesomeIcon
+                                                style={{ bottom: '3.5rem', right: '1rem' }}
+                                                icon="eye"
+                                            />
+                                        </CustomTooltip>
                                     </Link>
+
                                 </Overlay>
                                 <TableCell name="Image">
                                     <div style={{ background: `url(${product.images[0].url}) no-repeat` }} />

@@ -100,7 +100,10 @@ export const AddToCartButton = styled.div`
     color: ${props => props.theme.primaryColorLight};
     margin-bottom: 1.1rem;
     border: 1px solid ${props => props.theme.accentColorLight};
-
+    
+    svg {
+        font-size: 1.7rem;
+    }
     :hover {
         color: ${props => props.theme.primaryColorDark};
         cursor: pointer;
