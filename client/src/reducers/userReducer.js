@@ -4,7 +4,8 @@ import {
     LOGOUT_USER,
     GET_CURRENT_USER,
     ADD_TO_CART,
-    GET_CART_ITEMS
+    GET_CART_ITEMS,
+    REMOVE_CART_ITEM
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -37,7 +38,7 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userInfo: action.payload
-            }   
+            }
         case ADD_TO_CART:
             return {
                 ...state,
@@ -52,6 +53,15 @@ export default (state = INITIAL_STATE, action) => {
                 userInfo: {
                     ...state.userInfo,
                     cartSummary: action.payload
+                }
+            }
+        case REMOVE_CART_ITEM:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    cartSummary: action.cartSummary,
+                    cart: action.cart
                 }
             }
         default:

@@ -4,6 +4,8 @@ export const LOGOUT_USER = 'LOGOUT_USER'
 export const GET_CURRENT_USER = 'GET_CURRENT_USER'
 export const ADD_TO_CART = 'ADD_TO_CART'
 export const GET_CART_ITEMS = 'GET_CART_ITEMS'
+export const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
+export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
 
 export const GET_BRANDS = 'GET_BRANDS'
 export const GET_WOODS = 'GET_WOODS'

@@ -6,7 +6,8 @@ import {
     LOGOUT_USER,
     GET_CURRENT_USER,
     ADD_TO_CART,
-    GET_CART_ITEMS
+    GET_CART_ITEMS,
+    REMOVE_CART_ITEM
 } from "./types";
 import axios from 'axios'
 
@@ -162,7 +163,7 @@ export const getCartItems = (productIds, quantity) => async dispatch => {
         let data = response.data
         //add quantity field to response.data
         quantity.forEach(item => data.forEach((itemChild, index) => {
-            if(item._id === itemChild._id) {
+            if (item._id === itemChild._id) {
                 data[index].quantity = item.quantity
             }
         })
@@ -175,6 +176,32 @@ export const getCartItems = (productIds, quantity) => async dispatch => {
 
     } catch (err) {
 
+        throw err
+    }
+}
+
+export const removeItemFromCart = id => async dispatch => {
+
+    try {
+        //http request to '/api/users/remove_item?id=""
+        let response = await axios.get(`/api/users/remove_item?id=${id}`)
+        let cartSummary = response.data.cartSummary
+        let cart = response.data.cart
+
+        // merge what's in the response: cart & cartSummary (basically add the qty field)
+        response.data.cart.forEach(item => cartSummary.forEach((itemChild, index) => {
+            if (item._id === itemChild._id) {
+                cartSummary[index].quantity = item.quantity
+            }
+        }))
+
+        dispatch({
+            type: REMOVE_CART_ITEM,
+            cartSummary,
+            cart
+        })
+
+    } catch (err) {
         throw err
     }
 }

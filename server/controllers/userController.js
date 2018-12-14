@@ -1,4 +1,5 @@
 const { User } = require('../models/User')
+const { Product } = require('../models/Product')
 const cloudinary = require('cloudinary')
 const mongoose = require('mongoose')
 
@@ -157,7 +158,7 @@ module.exports = {
                         $inc: {
                             "cart.$.quantity": 1
                         }
-                    }, {new: true}
+                    }, { new: true }
                 )
 
                 return res.status(200).json(user.cart)
@@ -184,5 +185,44 @@ module.exports = {
 
             return res.status(400).json({ sucess: false, err })
         }
+    },
+
+    removeItem: async (req, res) => {
+
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.user._id },
+                {
+                    $pull: {
+                        cart: {
+                            _id: mongoose.Types.ObjectId(req.query.id)
+                        }
+                    }
+                }, { new: true }
+            )
+            //our cart model: [id, quantity, date]
+            let cart = user.cart
+
+            //we want to send back all info for each product
+            //get Ids fro each product in the cart
+            let productIds = cart.map(item => item._id)
+
+            //Retrieve all the info in the product collection for each Id
+            let cartSummary = await Product.find(
+                {
+                    _id: {
+                        $in: productIds
+                    }
+                }
+            ).populate('brand')
+                .populate('wood')
+
+            return res.status(200).json({ cart, cartSummary })
+
+        } catch (err) {
+
+            return res.status(400).json({ sucess: false, err })
+        }
     }
+
 }

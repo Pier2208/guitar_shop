@@ -1,11 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 import { CircularProgress } from '@material-ui/core'
 import CustomTooltip from '../utils/CustomTooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+
+//import action creator
+import { removeItemFromCart } from '../../actions/userActions'
 
 //fixed menu
 const TableMenu = ["Image", "Name", "Quantity", "Price"]
@@ -109,14 +113,13 @@ const Overlay = styled.div`
 `
 
 
-const CartSummary = ({ products }) => {
+const CartSummary = ({ products, removeItemFromCart }) => {
 
-    const removeItem = id => {
-        console.log(`Removed item ${id}`)
+    const removeItemHandler = id => {
+        removeItemFromCart(id)
     }
 
-
-    if (!products.cartSummary) {
+    if (products.cartSummary === undefined) {
         return (
             <LoaderContainer>
                 <CircularProgress
@@ -130,7 +133,7 @@ const CartSummary = ({ products }) => {
             <React.Fragment>
                 <TableRow type="Head">
                     {
-                        products.cartSummary ?
+                        products.cartSummary.length > 0 ?
                             TableMenu.map(item =>
                                 <TableCell key={item} name={item} type="Head">
                                     <h4>{item}</h4>
@@ -141,14 +144,14 @@ const CartSummary = ({ products }) => {
                 </TableRow>
 
                 {
-                    products.cartSummary ?
+                    products.cartSummary && products.cartSummary.length > 0 ?
                         products.cartSummary.map(product =>
                             <TableRow key={product._id}>
                                 <Overlay>
                                     <CustomTooltip title="remove" variant="light">
                                         <FontAwesomeIcon
                                             style={{ bottom: '1rem', right: '1.2rem' }}
-                                            onClick={() => removeItem(product._id)}
+                                            onClick={() => removeItemHandler(product._id)}
                                             icon="trash-alt"
                                         />
                                     </CustomTooltip>
@@ -161,8 +164,8 @@ const CartSummary = ({ products }) => {
                                             />
                                         </CustomTooltip>
                                     </Link>
-
                                 </Overlay>
+
                                 <TableCell name="Image">
                                     <div style={{ background: `url(${product.images[0].url}) no-repeat` }} />
                                 </TableCell>
@@ -171,14 +174,13 @@ const CartSummary = ({ products }) => {
                                     style={{ display: 'flex', justifyContent: 'center' }}
                                     name="Quantity">
                                     <FontAwesomeIcon
-                                        style={{ fontSize: '1.3rem' }}
+                                        style={{ fontSize: '1.4rem' }}
                                         icon="minus"
                                     />
-                                    <span>
-                                        {product.quantity}
-                                    </span>
+                                    <span>{product.quantity}</span>
+
                                     <FontAwesomeIcon
-                                        style={{ fontSize: '1.3rem' }}
+                                        style={{ fontSize: '1.4rem' }}
                                         icon="plus"
                                     />
                                 </TableCell>
@@ -193,4 +195,5 @@ const CartSummary = ({ products }) => {
     }
 }
 
-export default CartSummary
+
+export default connect(null, { removeItemFromCart })(CartSummary)

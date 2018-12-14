@@ -46,4 +46,11 @@ router.get('/removeimage', authenticate, isAdmin, userController.removeImage)
 //PRIVATE route
 router.post('/addtocart', authenticate, userController.addToCart)
 
+//@ GET 'api/users/remove_item?id=""
+//@ Desc Remove item from cart
+//PRIVATE route
+router.get('/remove_item', authenticate, userController.removeItem)
+
+
+
 module.exports = router
