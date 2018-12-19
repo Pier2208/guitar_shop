@@ -7,7 +7,8 @@ import {
     GET_CURRENT_USER,
     ADD_TO_CART,
     GET_CART_ITEMS,
-    REMOVE_CART_ITEM
+    REMOVE_CART_ITEM,
+    UPDATE_QUANTITY
 } from "./types";
 import axios from 'axios'
 
@@ -180,7 +181,7 @@ export const getCartItems = (productIds, quantity) => async dispatch => {
     }
 }
 
-export const removeItemFromCart = id => async dispatch => {
+export const removeItemFromCart = (id, calculateTotal) => async dispatch => {
 
     try {
         //http request to '/api/users/remove_item?id=""
@@ -189,7 +190,7 @@ export const removeItemFromCart = id => async dispatch => {
         let cart = response.data.cart
 
         // merge what's in the response: cart & cartSummary (basically add the qty field)
-        response.data.cart.forEach(item => cartSummary.forEach((itemChild, index) => {
+        cart.forEach(item => cartSummary.forEach((itemChild, index) => {
             if (item._id === itemChild._id) {
                 cartSummary[index].quantity = item.quantity
             }
@@ -200,6 +201,38 @@ export const removeItemFromCart = id => async dispatch => {
             cartSummary,
             cart
         })
+
+        calculateTotal(cartSummary)
+
+    } catch (err) {
+        throw err
+    }
+}
+
+export const updateQuantity = (id, num, calculateTotal) => async dispatch => {
+
+    try {
+        //http request to '/api/users/update_quantity?productId=''&num=''
+        const response = await axios.get(`/api/users/update_quantity?productId=${id}&num=${num}`)
+        let cart = response.data.cart
+        let cartSummary = response.data.cartSummary
+
+        //merge the 2 responses docs
+        cart.forEach(item => {
+            cartSummary.forEach((itemChild, index) => {
+                if(item._id === itemChild._id) {
+                    cartSummary[index].quantity = item.quantity
+                }
+            })
+        })
+
+        dispatch({
+            type: UPDATE_QUANTITY,
+            cart,
+            cartSummary
+        })
+
+        calculateTotal(cartSummary)
 
     } catch (err) {
         throw err

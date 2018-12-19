@@ -18,6 +18,12 @@ const styles = {
     dark: {
         color: 'white',
         backgroundColor: '#545454'
+    },
+    white: {
+        color: 'grey',
+        backgroundColor: '#fff',
+        border: '1px solid lightgrey',
+        padding: '.2rem',
     }
 }
 

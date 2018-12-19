@@ -217,12 +217,46 @@ module.exports = {
             ).populate('brand')
                 .populate('wood')
 
+            //send back cart which includes the qty and cartSummary which gets all the info
             return res.status(200).json({ cart, cartSummary })
 
         } catch (err) {
+            return res.status(400).json({ sucess: false, err })
+        }
+    },
 
+    updateQuantity: async (req, res) => {
+
+        try {
+            //update quantity of an item for the current user
+            const user = await User.findOneAndUpdate(
+                { _id: req.user._id, "cart._id": mongoose.Types.ObjectId(req.query.productId) },
+                {
+                    $inc: {
+                        "cart.$.quantity": parseInt(req.query.num)
+                    }
+                }, { new: true }
+            )
+
+            //user cart
+            let cart = user.cart
+            //get an array of all ids in user cart
+            let productIds = cart.map(item => item._id)
+
+            //fetch products details
+            let cartSummary = await Product.find(
+                {
+                    _id: {
+                        $in: productIds
+                    }
+                }
+            ).populate('brand')
+            .populate('wood')
+
+            res.status(200).json({ cart, cartSummary })
+
+        } catch (err) {
             return res.status(400).json({ sucess: false, err })
         }
     }
-
 }

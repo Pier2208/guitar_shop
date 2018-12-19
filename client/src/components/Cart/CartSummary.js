@@ -7,9 +7,11 @@ import { CircularProgress } from '@material-ui/core'
 import CustomTooltip from '../utils/CustomTooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import _ from 'lodash'
+
 
 //import action creator
-import { removeItemFromCart } from '../../actions/userActions'
+import { removeItemFromCart, updateQuantity } from '../../actions/userActions'
 
 //fixed menu
 const TableMenu = ["Image", "Name", "Quantity", "Price"]
@@ -84,88 +86,63 @@ const LoaderContainer = styled.div`
     align-items: center;
 `
 
-const Overlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.03);
-    opacity: 0;
-    transition: opacity 0.2s ease-in;
-
-    &:hover,
-    &:active {
-        opacity: 1;
-    }
-
+const Actions = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
     svg {
+        margin: .5rem 0 0 0;
         color: ${({ theme }) => theme.primaryColorLight};
-        position: absolute;
-        transition: color .2s ease-in-out;
-        cursor: pointer;
 
         &:hover,
         &:active {
-            color: ${({ theme }) => theme.accentColor};
+            color: ${({ theme }) => theme.primaryColorDark};
         }
     }
+    
+`
+const Price = styled.div`
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-basis: 80%;
 `
 
 
-const CartSummary = ({ products, removeItemFromCart }) => {
+const CartSummary = ({ products, removeItemFromCart, updateQuantity, calculateTotal }) => {
+
 
     const removeItemHandler = id => {
-        removeItemFromCart(id)
+        removeItemFromCart(id, calculateTotal)
     }
 
-    if (products.cartSummary === undefined) {
-        return (
-            <LoaderContainer>
-                <CircularProgress
-                    style={{ color: '#EF8354' }}
-                    thickness={5}
-                />
-            </LoaderContainer>
-        )
-    } else {
-        return (
-            <React.Fragment>
-                <TableRow type="Head">
-                    {
-                        products.cartSummary.length > 0 ?
-                            TableMenu.map(item =>
-                                <TableCell key={item} name={item} type="Head">
-                                    <h4>{item}</h4>
-                                </TableCell>
-                            )
-                            : null
-                    }
-                </TableRow>
+    const updateQuantityHandler = _.throttle((id, num) => {
+        updateQuantity(id, num, calculateTotal)
+    }, 1000, { 'trailing': false })
+    c
 
+    return (
+        <React.Fragment>
+            <TableRow type="Head">
                 {
+                    products.cart && products.cart.length > 0 ?
+                        TableMenu.map(item =>
+                            <TableCell key={item} name={item} type="Head">
+                                <h4>{item}</h4>
+                            </TableCell>
+                        )
+                        : null
+                }
+            </TableRow>
+
+            {
+                products.cartSummary === undefined ? null :
+
                     products.cartSummary && products.cartSummary.length > 0 ?
                         products.cartSummary.map(product =>
                             <TableRow key={product._id}>
-                                <Overlay>
-                                    <CustomTooltip title="remove" variant="light">
-                                        <FontAwesomeIcon
-                                            style={{ bottom: '1rem', right: '1.2rem' }}
-                                            onClick={() => removeItemHandler(product._id)}
-                                            icon="trash-alt"
-                                        />
-                                    </CustomTooltip>
-
-                                    <Link to={`/shop/product_detail/${product._id}`}>
-                                        <CustomTooltip title="view" variant="light">
-                                            <FontAwesomeIcon
-                                                style={{ bottom: '3.5rem', right: '1rem' }}
-                                                icon="eye"
-                                            />
-                                        </CustomTooltip>
-                                    </Link>
-                                </Overlay>
-
                                 <TableCell name="Image">
                                     <div style={{ background: `url(${product.images[0].url}) no-repeat` }} />
                                 </TableCell>
@@ -173,27 +150,53 @@ const CartSummary = ({ products, removeItemFromCart }) => {
                                 <TableCell
                                     style={{ display: 'flex', justifyContent: 'center' }}
                                     name="Quantity">
+                                    {
+                                        product.quantity <= 1 ?
+                                            <FontAwesomeIcon
+                                                style={{ fontSize: '1.4rem', color: '#deded9' }}
+                                                icon="minus"
+                                            />
+                                            :
+                                            <FontAwesomeIcon
+                                                onClick={() => updateQuantityHandler(product._id, -1)}
+                                                style={{ fontSize: '1.4rem' }}
+                                                icon="minus"
+                                            />
+                                    }
+                                    {product.quantity}
                                     <FontAwesomeIcon
-                                        style={{ fontSize: '1.4rem' }}
-                                        icon="minus"
-                                    />
-                                    <span>{product.quantity}</span>
-
-                                    <FontAwesomeIcon
+                                        onClick={() => updateQuantityHandler(product._id, 1)}
                                         style={{ fontSize: '1.4rem' }}
                                         icon="plus"
                                     />
                                 </TableCell>
-                                <TableCell name="Price">$ {product.price.toFixed(2)}</TableCell>
+                                <TableCell name="Price">
+                                    <Price>$ {product.price.toFixed(2)}</Price>
+                                    <Actions>
+                                        <Link to={`/shop/product_detail/${product._id}`}>
+                                            <CustomTooltip title="view" variant="light">
+                                                <FontAwesomeIcon
+                                                    icon="eye"
+                                                />
+                                            </CustomTooltip>
+                                        </Link>
+
+                                        <CustomTooltip title="remove" variant="light">
+                                            <FontAwesomeIcon
+                                                style={{ marginRight: '.25rem' }}
+                                                onClick={() => removeItemHandler(product._id)}
+                                                icon="trash-alt"
+                                            />
+                                        </CustomTooltip>
+                                    </Actions>
+                                </TableCell>
                             </TableRow>
                         )
                         :
                         <EmptyCart><h3>You have no items in your shopping cart</h3></EmptyCart>
-                }
-            </React.Fragment>
-        )
-    }
+            }
+        </React.Fragment>
+    )
 }
 
-
-export default connect(null, { removeItemFromCart })(CartSummary)
+export default connect(null, { removeItemFromCart, updateQuantity })(CartSummary)

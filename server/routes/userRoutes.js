@@ -31,7 +31,7 @@ router.get('/auth', authenticate, userController.authUser)
 //PRIVATE route
 router.get('/logout', authenticate, userController.logoutUser)
 
-//@ GET 'api/users/uploadimage'
+//@ POST 'api/users/uploadimage'
 //@ Desc Upload an image to Cloudinary
 //PRIVATE  & ADMIN route
 router.post('/uploadimage', authenticate, isAdmin, formidable(), userController.uploadImage)
@@ -50,6 +50,11 @@ router.post('/addtocart', authenticate, userController.addToCart)
 //@ Desc Remove item from cart
 //PRIVATE route
 router.get('/remove_item', authenticate, userController.removeItem)
+
+//@ PUT 'api/users/update_quantity?id=""&num=""
+//@ Desc Update quantity
+//PRIVATE route
+router.get('/update_quantity', authenticate, userController.updateQuantity)
 
 
 

@@ -5,11 +5,15 @@ import {
     GET_CURRENT_USER,
     ADD_TO_CART,
     GET_CART_ITEMS,
-    REMOVE_CART_ITEM
+    REMOVE_CART_ITEM,
+    UPDATE_QUANTITY
 } from '../actions/types'
 
 const INITIAL_STATE = {
-    userInfo: null,
+    userInfo: {
+        cartSummary: [],
+        cart: []
+    },
     registerSuccess: '',
     loginSuccess: '',
     logoutSuccess: ''
@@ -62,6 +66,15 @@ export default (state = INITIAL_STATE, action) => {
                     ...state.userInfo,
                     cartSummary: action.cartSummary,
                     cart: action.cart
+                }
+            }
+        case UPDATE_QUANTITY: 
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    cart: action.cart,
+                    cartSummary: action.cartSummary
                 }
             }
         default:
