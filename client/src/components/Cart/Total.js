@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import CountUp from 'react-countup'
 
 //styled components
 const Container = styled.div`
@@ -41,7 +42,11 @@ const Total = ({ total }) =>
         <TotalBox>
             <TotalHead>Total</TotalHead>
             <TotalBody>
-                <TotalNumber>$ {total.toFixed(2)}</TotalNumber>
+                <TotalNumber>
+                    <CountUp end={total.toFixed(2)} decimals={2} duration={.5}>
+                        $ {total.toFixed(2)}
+                    </CountUp>
+                </TotalNumber>
             </TotalBody>
         </TotalBox>
     </Container>

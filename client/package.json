@@ -17,6 +17,7 @@
     "popmotion": "^8.5.4",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
+    "react-countup": "^4.0.0",
     "react-dom": "^16.5.2",
     "react-dropzone": "^7.0.1",
     "react-images": "^0.5.19",

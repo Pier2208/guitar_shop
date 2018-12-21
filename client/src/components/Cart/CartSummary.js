@@ -7,11 +7,15 @@ import { CircularProgress } from '@material-ui/core'
 import CustomTooltip from '../utils/CustomTooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import CountUp from 'react-countup'
+
 import _ from 'lodash'
 
 
 //import action creator
 import { removeItemFromCart, updateQuantity } from '../../actions/userActions'
+import { GET_PRODUCTS_BY_ARRIVAL } from '../../actions/types';
 
 //fixed menu
 const TableMenu = ["Image", "Name", "Quantity", "Price"]
@@ -26,6 +30,10 @@ const TableRow = styled.div`
     background-color: ${({ type, theme }) => type === "Head" ? theme.primaryColorDark : '#ffffff'};
     padding: ${({ type }) => type === "Head" ? 0 : '.8rem 0'};
     border-bottom: ${({ type }) => type === "Head" ? 'none' : '1px solid #F7F7F2'};
+    -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+
 `
 
 const TableCell = styled.div`
@@ -39,15 +47,27 @@ const TableCell = styled.div`
     color: ${({ theme }) => theme.primaryColorDark};
     text-transform: uppercase;
     font-weight: ${({ name }) => name === "Name" || name === 'Quantity' && 'bold'};
+    -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
 
     div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 8rem;
         height: 8rem;
         background-position: center !important;
         background-size: cover !important;
     }
 
-    span {
+    h4 {
+        color: white;
+        margin: 0;
+    }
+`
+
+const Quantity = styled.span`
         display: flex;
         justify-content: center;
         align-items: center;
@@ -57,12 +77,32 @@ const TableCell = styled.div`
         border-radius: 50%;
         width: 3rem;
         height: 3rem;
-    }
+        outline: none;
+        -webkit-user-select: none; /* Chrome/Safari */        
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
 
-    h4 {
-        color: white;
-        margin: 0;
-    }
+        .quantity-enter {
+            /* if */
+            transform: translateY(-130%);
+            transition: .5s;
+            position: absolute;
+        }
+
+        .quantity-enter-active {
+            transform: translateY(0);
+        }
+
+        .quantity-exit {
+            transform: translateY(0);
+            transition: .5s;
+        }
+
+       .quantity-exit-active {
+           /* if */
+           transform: translateY(130%);
+           opacity: 0;
+        }
 `
 
 const EmptyCart = styled.div`
@@ -108,10 +148,36 @@ const Price = styled.div`
     justify-content: center;
     align-items: center;
     flex-basis: 80%;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
 `
 
 
+
 const CartSummary = ({ products, removeItemFromCart, updateQuantity, calculateTotal }) => {
+
+    var exit
+    var enter
+
+    const compareQty = () => {
+
+        if (document.querySelector('.quantity-exit')) {
+            exit = document.querySelector('.quantity-exit').textContent
+        }
+
+        if (document.querySelector('.quantity-enter')) {
+            enter = document.querySelector('.quantity-enter').textContent
+        }
+
+        if (exit > enter) {
+            console.log(`${exit} > ${enter}`)
+            return `${exit} > ${enter}`
+        } else {
+            console.log(exit)
+            return `${exit} < ${enter}`
+        }
+    }
 
 
     const removeItemHandler = id => {
@@ -121,7 +187,6 @@ const CartSummary = ({ products, removeItemFromCart, updateQuantity, calculateTo
     const updateQuantityHandler = _.throttle((id, num) => {
         updateQuantity(id, num, calculateTotal)
     }, 1000, { 'trailing': false })
-    c
 
     return (
         <React.Fragment>
@@ -163,7 +228,22 @@ const CartSummary = ({ products, removeItemFromCart, updateQuantity, calculateTo
                                                 icon="minus"
                                             />
                                     }
-                                    {product.quantity}
+
+                                    <Quantity>
+                                        <TransitionGroup className="quantity">
+                                            <CSSTransition
+                                                key={product.quantity}
+                                                timeout={{ enter: 500, exit: 500 }}
+                                                classNames="quantity"
+                                                onEntering={() => compareQty()}
+                                            >
+                                                <span unselectable="on" className={product.quantity}>
+                                                    {product.quantity}
+                                                </span>
+                                            </CSSTransition>
+                                        </TransitionGroup>
+                                    </Quantity>
+
                                     <FontAwesomeIcon
                                         onClick={() => updateQuantityHandler(product._id, 1)}
                                         style={{ fontSize: '1.4rem' }}
@@ -171,7 +251,9 @@ const CartSummary = ({ products, removeItemFromCart, updateQuantity, calculateTo
                                     />
                                 </TableCell>
                                 <TableCell name="Price">
-                                    <Price>$ {product.price.toFixed(2)}</Price>
+                                    <CountUp end={product.price.toFixed(2) * product.quantity} decimals={2} duration={.5}>
+                                        <Price>$ {product.price.toFixed(2) * product.quantity}</Price>
+                                    </CountUp>
                                     <Actions>
                                         <Link to={`/shop/product_detail/${product._id}`}>
                                             <CustomTooltip title="view" variant="light">
